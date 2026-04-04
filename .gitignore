@@ -5,7 +5,6 @@
 jac-env/
 
 # Ignore temporary and tool artifacts
-.jac/
 .claude/
 .mcp.json
 .env
