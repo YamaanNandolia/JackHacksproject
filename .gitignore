@@ -8,6 +8,7 @@ jac-env/
 .claude/
 .mcp.json
 .env
+.jir
 
 # Ignore Python bytecode
 __pycache__/
