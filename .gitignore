@@ -1,5 +1,5 @@
 # Ignore Jac agent source files
-*.jac
+
 
 # Ignore the local Python virtual environment
 jac-env/
