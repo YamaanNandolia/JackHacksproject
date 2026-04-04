@@ -1,0 +1,15 @@
+# Ignore Jac agent source files
+*.jac
+
+# Ignore the local Python virtual environment
+jac-env/
+
+# Ignore temporary and tool artifacts
+.jac/
+.claude/
+.mcp.json
+.env
+
+# Ignore Python bytecode
+__pycache__/
+*.pyc
