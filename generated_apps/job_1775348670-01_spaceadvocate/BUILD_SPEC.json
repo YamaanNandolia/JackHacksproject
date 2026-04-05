@@ -1,0 +1,14 @@
+{
+  "app_name": "SpaceAdvocate",
+  "language": "jac",
+  "entry_point": "main.jac",
+  "features": [
+    "Community forums for discussion and collaboration",
+    "Fundraising tools for advocacy campaigns",
+    "Petition creation and signing feature",
+    "Event organization for awareness campaigns",
+    "Resource library with information on NASA projects"
+  ],
+  "tech_stack": "Ruby on Rails backend, React frontend, SQLite",
+  "ui": "web dashboard"
+}

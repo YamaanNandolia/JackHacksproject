@@ -1,0 +1,24 @@
+{
+  "name": "jaccoder-companion",
+  "displayName": "JacCoder Companion",
+  "description": "Detects JacCoder job workspaces and surfaces build context inside VS Code.",
+  "version": "0.1.0",
+  "publisher": "jac-hacks",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": ["Other"],
+  "activationEvents": ["onStartupFinished"],
+  "main": "./out/extension.js",
+  "contributes": {},
+  "scripts": {
+    "compile": "tsc -p tsconfig.json",
+    "watch": "tsc -watch -p tsconfig.json",
+    "vscode:prepublish": "npm run compile"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/vscode": "^1.85.0",
+    "typescript": "^5.3.0"
+  }
+}
