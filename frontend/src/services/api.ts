@@ -24,21 +24,21 @@ export async function fetchTrendClusters(): Promise<TrendCluster[]> {
     throw new Error(`API error: ${response.status}`);
   }
 
-  const data = await response.json();
-  console.log('API Response:', data);
+  const body = await response.json();
+  console.log('API Response:', body);
 
-  // jac-scale walker response: { "reports": [ <reported_value> ] }
-  if (data?.reports && Array.isArray(data.reports) && data.reports.length > 0) {
-    const first = data.reports[0];
+  // Jac server wraps response: { "ok": true, "data": { "reports": [[...]] }, ... }
+  const inner = body?.data ?? body;
+
+  if (inner?.reports && Array.isArray(inner.reports) && inner.reports.length > 0) {
+    const first = inner.reports[0];
     if (Array.isArray(first)) return first as TrendCluster[];
-    // report was called multiple times — flatten
-    return data.reports.flat() as TrendCluster[];
+    return inner.reports.flat() as TrendCluster[];
   }
 
-  // def:pub function response: value returned directly or wrapped in { "returns": ... }
-  if (Array.isArray(data)) return data as TrendCluster[];
-  if (data?.returns && Array.isArray(data.returns)) return data.returns as TrendCluster[];
+  if (Array.isArray(inner)) return inner as TrendCluster[];
+  if (inner?.returns && Array.isArray(inner.returns)) return inner.returns as TrendCluster[];
 
-  console.error('Unexpected API response format:', data);
+  console.error('Unexpected API response format:', body);
   return [];
 }
