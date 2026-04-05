@@ -6,8 +6,60 @@ Frontend calls /walker/run_business_pipeline to trigger agents 6-11 business ana
 import from typing { Any }
 import json;
 import os;
+import re;
+import subprocess;
+import threading;
+import from pathlib { Path }
+import from datetime { datetime, timezone }
 import from agent5_software_prompt { run_software_prompts, SoftwarePrompt }
 import from agent9_1_orchestrator { run_full_pipeline, serialize_bundles }
+
+glob _BACKEND_DIR = Path(__file__).resolve().parent;
+glob _LAUNCHER = _BACKEND_DIR / "automation" / "launcher" / "launch_generated_app.py";
+glob _JOBS_DIR = _BACKEND_DIR / "jobs";
+
+def _fire_vscode_launcher(prompts: list) -> None {
+    if not prompts {
+        return;
+    }
+    sp: Any = prompts[0];
+    ts: str = datetime.now(timezone.utc).strftime("%Y%m%d%H%M%S");
+    job_id: str = f"{ts}-01";
+    raw: str = re.sub(r"[^\w\s-]", "", str(sp.software_name).lower().strip());
+    slug: str = re.sub(r"[\s_-]+", "-", raw).strip("-") or "app";
+    job: dict = {
+        "id": job_id,
+        "slug": slug,
+        "prompt": str(sp.prompt),
+        "build_spec": {
+            "app_name": str(sp.software_name),
+            "language": "jac",
+            "entry_point": "main.jac",
+            "features": [str(f) for f in (sp.core_features or [])],
+            "tech_stack": str(sp.tech_stack) if sp.tech_stack else "jac",
+            "ui": "web dashboard"
+        },
+        "_agent5": {
+            "category_name": str(sp.category_name),
+            "problem": str(sp.problem),
+            "score": sp.score if sp.score else 0,
+            "description": str(sp.description) if sp.description else ""
+        }
+    };
+    _JOBS_DIR.mkdir(exist_ok=True);
+    job_path: Path = _JOBS_DIR / f"{job_id}.json";
+    job_path.write_text(json.dumps(job, indent=2) + "\n");
+    print(f"Backend: job written → {job_path}");
+    def _run() -> None {
+        try {
+            subprocess.run(["python3", str(_LAUNCHER), str(job_path)], cwd=str(_BACKEND_DIR), timeout=300);
+        } except Exception as e {
+            print(f"Backend: launcher error: {e}");
+        }
+    }
+    threading.Thread(target=_run, daemon=True).start();
+    print(f"Backend: VS Code launcher fired for '{sp.software_name}'");
+}
 
 with entry {
     cache_path: str = os.getenv("AGENT5_OUTPUT_JSON", "");
@@ -23,6 +75,7 @@ walker:pub run_analysis {
         print("run_analysis: walker started");
         try {
             prompts: list[SoftwarePrompt] = run_software_prompts();
+            _fire_vscode_launcher(list(prompts));
 
             cache_path: str = os.getenv("AGENT5_OUTPUT_JSON", "");
             if cache_path != "" {

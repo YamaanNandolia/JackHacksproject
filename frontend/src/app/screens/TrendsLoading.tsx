@@ -12,7 +12,7 @@ const AGENT_STEPS = [
   "Finalizing trend clusters…",
 ];
 
-const STEP_DURATION_MS = 6000;
+const STEP_DURATION_MS = 12000;
 
 export default function TrendsLoading() {
   const navigate = useNavigate();
