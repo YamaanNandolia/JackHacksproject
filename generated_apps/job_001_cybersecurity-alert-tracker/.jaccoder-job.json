@@ -1,0 +1,24 @@
+{
+  "id": "001",
+  "slug": "cybersecurity-alert-tracker",
+  "prompt": "Build a small web app that monitors and displays real-time cybersecurity alerts. Users can view the latest CVEs, filter by severity (critical/high/medium/low), and subscribe to email notifications for new critical alerts. The app stores alert history and lets users mark alerts as reviewed.",
+  "build_spec": {
+    "app_name": "CyberWatch",
+    "language": "jac",
+    "entry_point": "main.jac",
+    "features": [
+      "REST API for alerts",
+      "severity filter",
+      "email subscription",
+      "alert history",
+      "mark-as-reviewed"
+    ],
+    "ui": "web dashboard"
+  },
+  "_meta": {
+    "launched_at": "2026-04-04T23:34:08.094092+00:00",
+    "source_job_file": "/Users/ayushbhardwaj/Documents/GitHub/Jac_hacks/Final1/jobs/sample_job.json",
+    "workspace": "/Users/ayushbhardwaj/Documents/GitHub/Jac_hacks/Final1/generated_apps/job_001_cybersecurity-alert-tracker",
+    "launcher_version": "1.0.0"
+  }
+}

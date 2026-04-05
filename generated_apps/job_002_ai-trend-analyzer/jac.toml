@@ -1,0 +1,6 @@
+[project]
+name = "TrendSight"
+version = "0.1.0"
+
+[plugins]
+byllm = {}

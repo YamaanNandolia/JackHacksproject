@@ -1,0 +1,25 @@
+{
+  "id": "1775348670-01",
+  "slug": "spaceadvocate",
+  "prompt": "Create a web application named SpaceAdvocate aimed at supporting advocacy for NASA funding. The platform should have community forums for users to discuss and collaborate on advocacy efforts, tools for fundraising campaigns, and a petition feature to gather support. Users should be able to organize events to raise awareness about NASA projects. Include a resource library that provides information on ongoing and proposed NASA initiatives. Use Ruby on Rails for the backend, React for the frontend, and SQLite for the database.",
+  "build_spec": {
+    "app_name": "SpaceAdvocate",
+    "language": "jac",
+    "entry_point": "main.jac",
+    "features": [
+      "Community forums for discussion and collaboration",
+      "Fundraising tools for advocacy campaigns",
+      "Petition creation and signing feature",
+      "Event organization for awareness campaigns",
+      "Resource library with information on NASA projects"
+    ],
+    "tech_stack": "Ruby on Rails backend, React frontend, SQLite",
+    "ui": "web dashboard"
+  },
+  "_agent5": {
+    "category_name": "Aerospace and Science",
+    "problem": "Proposed budget cuts to NASA threaten scientific research and space exploration initiatives.",
+    "score": 9,
+    "description": "SpaceAdvocate is a platform designed to support advocacy for NASA funding by connecting scientists, researchers, and space enthusiasts. It provides tools for collaboration, fundraising, and awareness campaigns to ensure scientific initiatives continue."
+  }
+}

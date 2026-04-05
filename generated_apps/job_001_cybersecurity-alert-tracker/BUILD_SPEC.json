@@ -1,0 +1,13 @@
+{
+  "app_name": "CyberWatch",
+  "language": "jac",
+  "entry_point": "main.jac",
+  "features": [
+    "REST API for alerts",
+    "severity filter",
+    "email subscription",
+    "alert history",
+    "mark-as-reviewed"
+  ],
+  "ui": "web dashboard"
+}
