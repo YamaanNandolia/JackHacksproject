@@ -4,7 +4,7 @@ import from byllm.lib { Model }
 import from typing { Any }
 import json;
 import from env_loader { OPENAI_API_KEY, DEFAULT_MODEL_NAME }
-import from agent7_pricing { run_customer_models, CustomerModel }
+import from agent7_pricing { CustomerModel }
 
 glob llm = Model(model_name=DEFAULT_MODEL_NAME, api_key=OPENAI_API_KEY);
 
@@ -127,31 +127,3 @@ def serialize_models(models: list[CustomerModel]) -> str {
     return json.dumps(output, indent=2);
 }
 
-"""Run the full pipeline through Agent 7 and return value propositions."""
-def run_value_proposition() -> list[ValueProposition] {
-    print("ValuePropositionAgent: Getting customer models from Agent 7...");
-    models: list[CustomerModel] = run_customer_models();
-    print(
-        f"ValuePropositionAgent: Received {len(
-            models
-        )} customer models. Crafting value propositions and positioning..."
-    );
-
-    models_json: str = serialize_models(models);
-    propositions: list[ValueProposition] = generate_value_propositions(models_json);
-
-    print(f"ValuePropositionAgent: Generated {len(propositions)} value propositions.");
-    for vp in propositions {
-        item: Any = vp;
-        print(f"  {item.software_name}:");
-        print(f"    Prop: {item.value_proposition_statement}");
-        print(f"    Strategy: {item.category_strategy}");
-        print(f"    ROI headline: {item.roi_model.headline_outcome}");
-    }
-    return propositions;
-}
-
-"""Export: run full pipeline through Agent 8 and return value propositions for downstream agents."""
-def run_value_propositions() -> list[ValueProposition] {
-    return run_value_proposition();
-}

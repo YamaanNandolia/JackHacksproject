@@ -4,7 +4,7 @@ import from byllm.lib { Model }
 import from typing { Any }
 import json;
 import from env_loader { OPENAI_API_KEY, DEFAULT_MODEL_NAME }
-import from agent9_sales_infrastructure { run_sales_plans, SalesInfrastructure }
+import from agent9_sales_infrastructure { SalesInfrastructure }
 import from agent8_value_proposition { ValueProposition }
 
 glob llm = Model(model_name=DEFAULT_MODEL_NAME, api_key=OPENAI_API_KEY);
@@ -145,34 +145,6 @@ def serialize_plans(plans: list[SalesInfrastructure]) -> str {
         );
     }
     return json.dumps(output, indent=2);
-}
-
-"""Run the full pipeline through Agent 9 and return partnership strategies."""
-def run_partnership_strategies() -> list[PartnershipStrategy] {
-    print("PartnershipsAgent: Getting sales infrastructure plans from Agent 9...");
-    plans: list[SalesInfrastructure] = run_sales_plans();
-    print(
-        f"PartnershipsAgent: Received {len(
-            plans
-        )} plans. Mapping partnership landscape and co-selling tests..."
-    );
-
-    plans_json: str = serialize_plans(plans);
-    strategies: list[PartnershipStrategy] = generate_partnership_strategies(plans_json);
-
-    print(f"PartnershipsAgent: Generated {len(strategies)} partnership strategies.");
-    for s in strategies {
-        item: Any = s;
-        print(
-            f"  {item.software_name}: Partners={len(item.partner_landscape)}, Top integrations={len(item.top_integration_partnerships)}, Co-sell tests={len(item.co_selling_tests)}"
-        );
-    }
-    return strategies;
-}
-
-"""Export: run full pipeline through Agent 10 and return partnership strategies for downstream agents."""
-def run_partnerships() -> list[PartnershipStrategy] {
-    return run_partnership_strategies();
 }
 
 # ── Parallel-pipeline variant ────────────────────────────────────────────────

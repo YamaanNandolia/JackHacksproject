@@ -4,8 +4,18 @@ and receives trend cluster data for the results page.
 Frontend calls /walker/run_business_pipeline to trigger agents 6-11 business analysis."""
 
 import from typing { Any }
+import json;
+import os;
 import from agent5_software_prompt { run_software_prompts, SoftwarePrompt }
 import from agent9_1_orchestrator { run_full_pipeline, serialize_bundles }
+
+with entry {
+    cache_path: str = os.getenv("AGENT5_OUTPUT_JSON", "");
+    if cache_path != "" and os.path.exists(cache_path) {
+        os.remove(cache_path);
+        print(f"Startup: removed stale cache {cache_path}");
+    }
+}
 
 """Run agents 1-5 and report trend clusters for the frontend results page."""
 walker:pub run_analysis {
@@ -13,6 +23,29 @@ walker:pub run_analysis {
         print("run_analysis: walker started");
         try {
             prompts: list[SoftwarePrompt] = run_software_prompts();
+
+            cache_path: str = os.getenv("AGENT5_OUTPUT_JSON", "");
+            if cache_path != "" {
+                cache_data: list[dict[str, Any]] = [];
+                for sp in prompts {
+                    item: Any = sp;
+                    cache_data.append({
+                        "category_name": item.category_name,
+                        "problem": item.problem,
+                        "score": item.score,
+                        "software_name": item.software_name,
+                        "description": item.description,
+                        "core_features": item.core_features,
+                        "tech_stack": item.tech_stack,
+                        "prompt": item.prompt
+                    });
+                }
+                f: Any = open(cache_path, "w");
+                f.write(json.dumps(cache_data, indent=2));
+                f.close();
+                print(f"run_analysis: cached {len(cache_data)} prompts to {cache_path}");
+            }
+
             output: list[dict[str, Any]] = [];
             idx: int = 0;
             for sp in prompts {

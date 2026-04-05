@@ -4,7 +4,7 @@ import from byllm.lib { Model }
 import from typing { Any }
 import json;
 import from env_loader { OPENAI_API_KEY, DEFAULT_MODEL_NAME }
-import from agent8_value_proposition { run_value_propositions, ValueProposition }
+import from agent8_value_proposition { ValueProposition }
 
 glob llm = Model(model_name=DEFAULT_MODEL_NAME, api_key=OPENAI_API_KEY);
 
@@ -164,30 +164,3 @@ def serialize_propositions(propositions: list[ValueProposition]) -> str {
     return json.dumps(output, indent=2);
 }
 
-"""Run the full pipeline through Agent 8 and return sales infrastructure plans."""
-def run_sales_infrastructure() -> list[SalesInfrastructure] {
-    print("SalesInfrastructureAgent: Getting value propositions from Agent 8...");
-    propositions: list[ValueProposition] = run_value_propositions();
-    print(
-        f"SalesInfrastructureAgent: Received {len(
-            propositions
-        )} propositions. Designing sales infrastructure..."
-    );
-
-    propositions_json: str = serialize_propositions(propositions);
-    plans: list[SalesInfrastructure] = generate_sales_infrastructure(propositions_json);
-
-    print(f"SalesInfrastructureAgent: Generated {len(plans)} sales infrastructure plans.");
-    for p in plans {
-        item: Any = p;
-        print(
-            f"  {item.software_name}: CRM={item.crm_setup.recommended_crm}, Stages={len(item.pipeline_stages)}, Sequence steps={len(item.email_sequence)}"
-        );
-    }
-    return plans;
-}
-
-"""Export: run full pipeline through Agent 9 and return sales infrastructure plans for downstream agents."""
-def run_sales_plans() -> list[SalesInfrastructure] {
-    return run_sales_infrastructure();
-}

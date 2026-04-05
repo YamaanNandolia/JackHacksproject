@@ -17,3 +17,6 @@ node_modules/
 # Ignore Python bytecode
 __pycache__/
 *.pyc
+
+# Ignore generated agent cache files
+agent5-result.json

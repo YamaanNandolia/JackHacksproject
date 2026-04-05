@@ -4,7 +4,7 @@ import from byllm.lib { Model }
 import from typing { Any }
 import json;
 import from env_loader { OPENAI_API_KEY, DEFAULT_MODEL_NAME }
-import from agent6_business_orchestrator { run_business_reports, BusinessReport }
+import from agent6_business_orchestrator { BusinessReport }
 
 glob llm = Model(model_name=DEFAULT_MODEL_NAME, api_key=OPENAI_API_KEY);
 
@@ -130,30 +130,3 @@ def serialize_reports(reports: list[BusinessReport]) -> str {
     return json.dumps(output, indent=2);
 }
 
-"""Run the full pipeline through Agent 6 and return customer models."""
-def run_customer_modeling() -> list[CustomerModel] {
-    print("CustomerPersonaAgent: Getting business reports from Agent 6...");
-    reports: list[BusinessReport] = run_business_reports();
-    print(
-        f"CustomerPersonaAgent: Received {len(
-            reports
-        )} reports. Modeling customer profiles and buyer personas..."
-    );
-
-    reports_json: str = serialize_reports(reports);
-    models: list[CustomerModel] = generate_customer_models(reports_json);
-
-    print(f"CustomerPersonaAgent: Generated {len(models)} customer models.");
-    for m in models {
-        item: Any = m;
-        print(
-            f"  {item.software_name}: ICP={item.icp.industry_vertical}, Personas={len(item.buyer_personas)}, Scoring rules={len(item.lead_scoring_rules)}"
-        );
-    }
-    return models;
-}
-
-"""Export: run full pipeline through Agent 7 and return customer models for downstream agents."""
-def run_customer_models() -> list[CustomerModel] {
-    return run_customer_modeling();
-}

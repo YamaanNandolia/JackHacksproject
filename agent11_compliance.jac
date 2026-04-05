@@ -4,7 +4,7 @@ import from byllm.lib { Model }
 import from typing { Any }
 import json;
 import from env_loader { OPENAI_API_KEY, DEFAULT_MODEL_NAME }
-import from agent10_partnerships { run_partnerships, PartnershipStrategy }
+import from agent10_partnerships { PartnershipStrategy }
 import from agent8_value_proposition { ValueProposition }
 
 glob llm = Model(model_name=DEFAULT_MODEL_NAME, api_key=OPENAI_API_KEY);
@@ -197,31 +197,6 @@ def serialize_strategies(strategies: list[PartnershipStrategy]) -> str {
         );
     }
     return json.dumps(output, indent=2);
-}
-
-"""Run the full pipeline through Agent 10 and return compliance foundations."""
-def run_compliance_foundations() -> list[ComplianceFoundation] {
-    print("ComplianceAgent: Getting partnership strategies from Agent 10...");
-    strategies: list[PartnershipStrategy] = run_partnerships();
-    print(
-        f"ComplianceAgent: Received {len(
-            strategies
-        )} strategies. Designing compliance and operational foundations..."
-    );
-
-    strategies_json: str = serialize_strategies(strategies);
-    foundations: list[ComplianceFoundation] = generate_compliance_foundations(
-        strategies_json
-    );
-
-    print(f"ComplianceAgent: Generated {len(foundations)} compliance foundations.");
-    for f in foundations {
-        item: Any = f;
-        print(
-            f"  {item.software_name}: Entity={item.incorporation_plan.recommended_entity_type}, Regulations={len(item.privacy_compliance.applicable_regulations)}, Deal desk triggers={len(item.deal_desk_process.review_triggers)}"
-        );
-    }
-    return foundations;
 }
 
 # ── Parallel-pipeline variant ────────────────────────────────────────────────
