@@ -1,0 +1,24 @@
+{
+  "id": "1775371696-01",
+  "slug": "climateaction-hub",
+  "prompt": "Create an application called ClimateAction Hub targeting community engagement in climate action. The app should provide real-time climate data tracking for users to stay informed about local climate changes. Users should be able to create customizable climate action plans based on their community's needs. Implement community collaboration tools to allow users to connect and work with local initiatives. Additionally, provide educational resources and best practices for users to learn effective strategies for mitigating climate change. The UI should be engaging and interactive, encouraging community participation.",
+  "build_spec": {
+    "app_name": "ClimateAction Hub",
+    "language": "jac",
+    "entry_point": "main.jac",
+    "features": [
+      "Real-time climate data tracking",
+      "Customizable climate action plans",
+      "Community collaboration tools",
+      "Educational resources and best practices"
+    ],
+    "tech_stack": "Django backend, Vue.js frontend, PostgreSQL",
+    "ui": "web dashboard"
+  },
+  "_agent5": {
+    "category_name": "Climate Change Developments",
+    "problem": "Immediate action is required to address the escalating effects of climate change, as highlighted by the UN Climate Report, which stresses the need for comprehensive strategies to mitigate its impact on communities worldwide.",
+    "score": 10,
+    "description": "ClimateAction Hub is a powerful app designed to empower communities and organizations to take immediate action against climate change. It provides tools for monitoring climate data, creating personalized action plans, and collaborating with local initiatives to implement effective strategies for mitigation and adaptation."
+  }
+}

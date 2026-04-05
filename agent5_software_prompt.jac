@@ -4,10 +4,10 @@ import from byllm.lib { Model }
 import from typing { Any }
 import json;
 import os;
-import from env_loader { OPENAI_API_KEY }
+import from env_loader { OPENAI_API_KEY, DEFAULT_MODEL_NAME }
 import from agent4_problem_creator { run_problem_creation, ProblemStatement }
 
-glob llm = Model(model_name="gpt-4o-mini", api_key=OPENAI_API_KEY);
+glob llm = Model(model_name=DEFAULT_MODEL_NAME, api_key=OPENAI_API_KEY);
 
 """A fully-formed software development prompt for a given problem."""
 obj SoftwarePrompt {
@@ -70,25 +70,28 @@ def serialize_problems(problems: list[ProblemStatement]) -> str {
     return json.dumps(output, indent=2);
 }
 
+"""Run the full Agents 1-5 pipeline and return software prompts.
+Exported so downstream agents (6-11) can import and call this directly."""
+def run_software_prompts() -> list[SoftwarePrompt] {
+    print("SoftwarePromptAgent: Getting problem statements from Agent 4...");
+    problems: list[ProblemStatement] = run_problem_creation();
+    print(
+        f"SoftwarePromptAgent: Received {len(
+            problems
+        )} problems. Generating software prompts..."
+    );
+    problems_json: str = serialize_problems(problems);
+    software_prompts: list[SoftwarePrompt] = generate_software_prompts(problems_json);
+    print(
+        f"SoftwarePromptAgent: Generated {len(software_prompts)} software prompts."
+    );
+    return software_prompts;
+}
+
 walker SoftwarePromptAgent {
     can run with Root entry {
-        print("SoftwarePromptAgent: Getting problem statements from Agent 4...");
-        problems: list[ProblemStatement] = run_problem_creation();
-        print(
-            f"SoftwarePromptAgent: Received {len(
-                problems
-            )} problems. Generating software prompts..."
-        );
-
-        problems_json: str = serialize_problems(problems);
-        software_prompts: list[SoftwarePrompt] = generate_software_prompts(
-            problems_json
-        );
+        software_prompts: list[SoftwarePrompt] = run_software_prompts();
         report software_prompts;
-
-        print(
-            f"SoftwarePromptAgent: Generated {len(software_prompts)} software prompts."
-        );
     }
 }
 

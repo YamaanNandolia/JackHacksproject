@@ -1,0 +1,25 @@
+{
+  "id": "1775371365-01",
+  "slug": "ruralcare-connect",
+  "prompt": "Build an application called RuralCare Connect that allows patients in rural areas to access telemedicine services. The app should facilitate video consultations, secure messaging, and appointment scheduling with healthcare providers. Users should be able to create and manage their health records and prescriptions. The UI should be user-friendly, allowing easy navigation and onboarding for users who may not be tech-savvy. Ensure the backend is developed using Node.js, the frontend is a mobile app using React Native, and implement WebRTC for real-time video communication.",
+  "build_spec": {
+    "app_name": "RuralCare Connect",
+    "language": "jac",
+    "entry_point": "main.jac",
+    "features": [
+      "Video consultation with healthcare providers",
+      "Secure messaging for patient-doctor communication",
+      "Appointment scheduling and reminders",
+      "Health record management",
+      "Prescription management"
+    ],
+    "tech_stack": "Node.js backend, React Native mobile app, WebRTC for video calls, MongoDB for data storage",
+    "ui": "web dashboard"
+  },
+  "_agent5": {
+    "category_name": "Public Health Initiatives",
+    "problem": "Access to telemedicine remains limited in rural areas, hindering patient care and health outcomes.",
+    "score": 8,
+    "description": "RuralCare Connect is a telemedicine application designed specifically for patients in rural areas to facilitate access to healthcare providers through video consultations and messaging. It aims to bridge the gap in healthcare services by connecting patients with doctors remotely, ensuring that they receive timely medical advice and treatment without the need for long-distance travel."
+  }
+}

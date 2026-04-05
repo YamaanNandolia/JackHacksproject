@@ -1,0 +1,25 @@
+{
+  "id": "1775374553-01",
+  "slug": "gridsense",
+  "prompt": "Develop a sophisticated energy grid management platform named 'GridSense'. This platform will provide utilities with real-time monitoring, AI-driven forecasting, and tools to manage distributed energy resources (DERs) and electric vehicle (EV) demand. It needs to ingest vast amounts of real-time sensor data, historical load data, weather forecasts, and DER generation data. The core functionality includes predicting energy load and renewable generation, orchestrating DERs for grid balance, and managing outage responses. Data Model: SensorData (Timestamp, LocationID, Type, Value), DER (ID, Type, Capacity, LocationID, Status), EVCharger (ID, LocationID, Capacity, Status, UsageHistory), LoadForecast (Timestamp, LocationID, PredictedLoad), GenerationForecast (Timestamp, LocationID, PredictedGeneration, ResourceType), Outage (ID, StartTime, EndTime, LocationIDs, Status). UI Behavior: A central dashboard with a map-based visualization of the grid, showing real-time sensor data, DER status, and outage locations. Interactive charts for historical load, generation, and forecasts. A control panel for dispatching DERs. Alerts for anomalies or potential outages. Configuration pages for integrating new sensors and DERs. The UI must be highly responsive and capable of handling large datasets for visualization.",
+  "build_spec": {
+    "app_name": "GridSense",
+    "language": "jac",
+    "entry_point": "main.jac",
+    "features": [
+      "Real-time Grid Monitoring & Visualization: Interactive dashboards displaying live data from grid sensors, DERs, and EV charging stations.",
+      "AI-Powered Load & Generation Forecasting: Predictive models for energy demand and renewable generation (solar, wind) incorporating weather data and historical patterns.",
+      "DER Orchestration Engine: Algorithms to manage and optimize the dispatch of distributed energy resources (batteries, microgrids) for grid stability and efficiency.",
+      "Outage Management System (OMS) Integration: Tools to quickly identify, localize, and manage power outages, potentially suggesting rerouting or resource deployment.",
+      "EV Charging Demand Management: Forecasting and optimization of EV charging impacts on the grid, including smart charging recommendations."
+    ],
+    "tech_stack": "Python backend (Pandas, Scikit-learn, TensorFlow/PyTorch for AI, FastAPI for API), Node.js for real-time data processing (WebSocket), React/Vue.js frontend, Time-series database (InfluxDB/TimescaleDB), PostgreSQL, Kafka for data streaming.",
+    "ui": "web dashboard"
+  },
+  "_agent5": {
+    "category_name": "Energy Grid Modernization",
+    "problem": "Utilities lack sophisticated software tools to effectively forecast energy load, manage outages, and coordinate the complex integration of distributed energy resources like solar, batteries, and the growing demand from electric vehicles into aging power grids.",
+    "score": 9,
+    "description": "GridSense is an advanced utility management platform designed to modernize energy grids. It provides utilities with real-time data visualization, AI-powered load forecasting, and sophisticated tools for distributed energy resource (DER) integration and outage management. The platform helps utilities proactively balance energy supply and demand, optimize grid stability, and efficiently incorporate renewables and EV charging infrastructure, thereby enhancing reliability and operational efficiency for millions of consumers."
+  }
+}

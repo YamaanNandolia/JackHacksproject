@@ -4,14 +4,54 @@ import from byllm.lib { Model }
 import from typing { Any }
 import requests;
 import json;
-import from env_loader { OPENAI_API_KEY, NEWS_API_KEY }
+import from env_loader { OPENAI_API_KEY, NEWS_API_KEY, DEFAULT_MODEL_NAME }
 
-glob llm = Model(model_name="gpt-4o-mini", api_key=OPENAI_API_KEY);
+glob llm = Model(model_name=DEFAULT_MODEL_NAME, api_key=OPENAI_API_KEY);
 
 """Represents a single article/trend with title and description."""
 obj Trend {
     has title: str = "";
     has description: str = "";
+}
+
+"""Fallback trends used when live news is unavailable."""
+glob FALLBACK_TRENDS: list[Trend] = [
+    Trend(
+        title="AI copilots expand into regulated enterprise workflows",
+        description="Businesses are adopting AI assistants for finance, healthcare, and legal operations while struggling with auditability and human review."
+    ),
+    Trend(
+        title="Utilities modernize grids to handle EVs and distributed energy",
+        description="Power operators need better software to forecast load, manage outages, and coordinate solar, batteries, and electric vehicles."
+    ),
+    Trend(
+        title="Cyberattacks increasingly target midsize businesses",
+        description="Smaller organizations face rising ransomware and phishing risk but lack dedicated security teams and affordable tooling."
+    ),
+    Trend(
+        title="Hospitals push operational automation to offset staffing shortages",
+        description="Healthcare providers are looking for workflow tools that reduce admin burden, speed scheduling, and improve patient communication."
+    ),
+    Trend(
+        title="Supply chains shift toward real-time visibility tools",
+        description="Manufacturers and distributors want earlier warning signals for delays, inventory risk, and supplier disruptions."
+    ),
+    Trend(
+        title="Climate reporting rules drive demand for emissions tracking",
+        description="Companies need practical systems to collect sustainability data, validate it, and produce stakeholder-ready reports."
+    )
+];
+
+"""Fetch JSON from the News API, returning null if the request fails."""
+def fetch_news_json(url: str, params: dict[str, str]) -> Any {
+    try {
+        resp: Any = requests.get(url, params=params, timeout=10);
+        resp.raise_for_status();
+        return resp.json();
+    } except Exception as e {
+        print(f"LookoutAgent: News request failed for {url}: {e}");
+        return None;
+    }
 }
 
 """Fetch top headlines from News API for a given category."""
@@ -25,10 +65,9 @@ def fetch_top_headlines(
         "country": country,
         "pageSize": str(page_size)
     };
-    resp: Any = requests.get(url, params=params);
-    data: Any = resp.json();
+    data: Any = fetch_news_json(url, params);
     articles: list[dict[str, str]] = [];
-    if data.get("status") == "ok" {
+    if data != None && data.get("status") == "ok" {
         for article in data.get("articles", []) {
             articles.append(
                 {
@@ -55,10 +94,9 @@ def search_news(query: str, page_size: int = 20) -> list[dict[str, str]] {
         "sortBy": "publishedAt",
         "language": "en"
     };
-    resp: Any = requests.get(url, params=params);
-    data: Any = resp.json();
+    data: Any = fetch_news_json(url, params);
     articles: list[dict[str, str]] = [];
-    if data.get("status") == "ok" {
+    if data != None && data.get("status") == "ok" {
         for article in data.get("articles", []) {
             articles.append(
                 {
@@ -94,24 +132,9 @@ def get_top_trends() -> list[Trend] {
             }
         }
     }
+    if len(trends) == 0 {
+        print("LookoutAgent: Using built-in fallback trends because no live news was fetched.");
+        return FALLBACK_TRENDS;
+    }
     return trends;
-}
-
-walker LookoutAgent {
-    can run with Root entry {
-        print("LookoutAgent: Fetching top trends...");
-        trends: list[Trend] = get_top_trends();
-        report trends;
-        print(f"LookoutAgent: Fetched {len(trends)} trends.");
-    }
-}
-
-with entry {
-    result: Any = root() spawn LookoutAgent();
-    raw_trends: list[Trend] = result.reports[0];
-    output: list[dict[str, Any]] = [];
-    for t in raw_trends {
-        output.append({"title": t.title, "description": t.description});
-    }
-    print(json.dumps(output, indent=2));
 }

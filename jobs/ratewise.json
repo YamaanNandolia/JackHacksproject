@@ -1,0 +1,25 @@
+{
+  "id": "1775368443-01",
+  "slug": "ratewise",
+  "prompt": "Build an application called RateWise that helps consumers understand the impact of interest rate hikes on their financial habits. The app should feature an interest rate impact calculator that allows users to input their financial data and see how changes affect their spending and saving habits. Include a personalized financial advice engine that provides tailored recommendations based on user inputs. The platform should also offer educational resources about interest rates and a tracker for spending and saving behaviors. Monthly reports should summarize users' financial health. The backend should utilize Ruby on Rails, the frontend should be developed with Vue.js, and PostgreSQL should be used for data management.",
+  "build_spec": {
+    "app_name": "RateWise",
+    "language": "jac",
+    "entry_point": "main.jac",
+    "features": [
+      "Interest rate impact calculator",
+      "Personalized financial advice engine",
+      "Educational resources on interest rates",
+      "Spending and saving behavior tracker",
+      "Monthly financial health reports"
+    ],
+    "tech_stack": "Ruby on Rails backend, Vue.js frontend, PostgreSQL",
+    "ui": "web dashboard"
+  },
+  "_agent5": {
+    "category_name": "Economic Updates",
+    "problem": "Recent interest rate hikes are creating confusion among consumers regarding their spending and saving habits, impacting overall economic recovery.",
+    "score": 9,
+    "description": "RateWise is a consumer-focused financial application designed to demystify the impact of recent interest rate hikes on spending and saving behaviors. By providing educational resources, interactive calculators, and personalized financial advice, the app helps users understand the consequences of these changes on their finances, promoting smarter financial decision-making and economic recovery."
+  }
+}

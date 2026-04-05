@@ -9,6 +9,8 @@ jac-env/
 .mcp.json
 .env
 .jir
+jac.toml
+.DS_Store
 
 # Ignore Python bytecode
 __pycache__/

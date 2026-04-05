@@ -35,12 +35,13 @@ from pathlib import Path
 # ---------------------------------------------------------------------------
 # Paths
 # ---------------------------------------------------------------------------
-SCRIPT_DIR   = Path(__file__).resolve().parent          # automation/
-PROJECT_ROOT = SCRIPT_DIR.parent                        # Final1/
-JOBS_DIR     = PROJECT_ROOT / "jobs"
-LAUNCHER     = SCRIPT_DIR / "launcher" / "launch_generated_app.py"
-AGENT5_JAC   = PROJECT_ROOT / "agent5_software_prompt.jac"
-RUNS_DIR     = PROJECT_ROOT / "logs" / "pipeline_runs"
+SCRIPT_DIR    = Path(__file__).resolve().parent          # automation/
+PROJECT_ROOT  = SCRIPT_DIR.parent                        # Final1/
+JOBS_DIR      = PROJECT_ROOT / "jobs"
+LAUNCHER      = SCRIPT_DIR / "launcher" / "launch_generated_app.py"
+AGENT5_JAC    = PROJECT_ROOT / "agent5_software_prompt.jac"
+AGENT9_1_JAC  = PROJECT_ROOT / "agent9_1_orchestrator.jac"
+RUNS_DIR      = PROJECT_ROOT / "logs" / "pipeline_runs"
 
 # Marker line printed by agent5_software_prompt.jac
 AGENT5_MARKER = "=== Agent 5 Output: Software Prompts (Ready for Jac Coder) ==="
@@ -265,13 +266,83 @@ def launch_job(job_path: Path, no_vscode: bool) -> None:
         log.info("Launcher finished for %s", job_path.name)
 
 
+def launch_all_jobs(job_paths: list[Path], no_vscode: bool) -> None:
+    """Launch every job workspace (runs in a background thread alongside the business pipeline)."""
+    log.info("═" * 40)
+    log.info("LAUNCHPAD thread started — launching %d workspace(s).", len(job_paths))
+    for job_path in job_paths:
+        launch_job(job_path, no_vscode=no_vscode)
+        if len(job_paths) > 1:
+            time.sleep(2)
+    log.info("LAUNCHPAD thread complete.")
+    log.info("═" * 40)
+
+
+def run_business_pipeline(prompts_path: Path, run_dir: Path) -> None:
+    """
+    Run the business pipeline (Agents 6-11) in a background thread.
+
+    Passes AGENT5_OUTPUT_JSON so agent9.1 loads the cached agent5 output
+    instead of re-running agents 1-5.
+    Agents 9, 10, 11 run simultaneously inside agent9.1 via threading.
+    """
+    if not AGENT9_1_JAC.exists():
+        log.error("agent9_1_orchestrator.jac not found — skipping business pipeline.")
+        return
+
+    log.info("═" * 40)
+    log.info("BUSINESS PIPELINE thread started (Agents 6 → 11).")
+    log.info("agent9.1 JAC  : %s", AGENT9_1_JAC)
+    log.info("Agent5 cache  : %s", prompts_path)
+    log.info("═" * 40)
+
+    biz_stdout_log = run_dir / "business_pipeline.stdout.log"
+    biz_stderr_log = run_dir / "business_pipeline.stderr.log"
+
+    env = os.environ.copy()
+    env["AGENT5_OUTPUT_JSON"] = str(prompts_path)
+
+    proc = subprocess.Popen(
+        ["jac", "run", str(AGENT9_1_JAC)],
+        cwd=PROJECT_ROOT,
+        env=env,
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        bufsize=1,
+    )
+
+    with biz_stdout_log.open("w") as stdout_f, biz_stderr_log.open("w") as stderr_f:
+        t_out = threading.Thread(
+            target=stream_reader,
+            args=(proc.stdout, stdout_f, sys.stdout, None),
+            daemon=True,
+        )
+        t_err = threading.Thread(
+            target=stream_reader,
+            args=(proc.stderr, stderr_f, sys.stderr, None),
+            daemon=True,
+        )
+        t_out.start()
+        t_err.start()
+        returncode = proc.wait()
+        t_out.join()
+        t_err.join()
+
+    if returncode != 0:
+        log.error("Business pipeline exited with code %d. See %s", returncode, run_dir)
+    else:
+        log.info("BUSINESS PIPELINE thread complete (Agents 6-11). Logs: %s", run_dir)
+    log.info("═" * 40)
+
+
 # ---------------------------------------------------------------------------
 # Entry point
 # ---------------------------------------------------------------------------
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="Run Agents 1-5 then hand off the best prompt to JacCoder."
+        description="Run Agents 1-5 → Launchpad + Business pipeline (6-11) simultaneously."
     )
     parser.add_argument(
         "--all",
@@ -335,21 +406,41 @@ def main() -> None:
         job_paths.append(job_path)
 
     if args.dry_run:
-        log.info("--dry-run: skipping launcher. Job files written to jobs/")
+        log.info("--dry-run: skipping launcher and business pipeline. Job files:")
         for jp in job_paths:
             log.info("  %s", jp)
         return
 
-    # ── Step 5: Launch each job ───────────────────────────────────────────────
-    for job_path in job_paths:
-        launch_job(job_path, no_vscode=args.no_vscode)
-        # Small gap so VS Code windows don't open simultaneously
-        if len(job_paths) > 1:
-            time.sleep(2)
+    # ── Step 5: Launchpad + Business pipeline — start SIMULTANEOUSLY ──────────
+    log.info("═" * 60)
+    log.info("Starting Launchpad and Business pipeline simultaneously…")
+    log.info("  Thread A → Launchpad  : VS Code workspace(s) + JacCoder")
+    log.info("  Thread B → Business   : Agents 6→7→8 then 9/10/11 in parallel")
+    log.info("═" * 60)
+
+    launchpad_thread = threading.Thread(
+        target=launch_all_jobs,
+        args=(job_paths, args.no_vscode),
+        name="Launchpad",
+        daemon=False,
+    )
+    business_thread = threading.Thread(
+        target=run_business_pipeline,
+        args=(prompts_path, run_dir),
+        name="BusinessPipeline",
+        daemon=False,
+    )
+
+    launchpad_thread.start()
+    business_thread.start()
+
+    launchpad_thread.join()
+    business_thread.join()
 
     log.info("═" * 60)
-    log.info("Pipeline complete.")
-    log.info("VS Code workspace(s) opened. Check Output › JacCoder in each window.")
+    log.info("All done.")
+    log.info("  Launchpad  → VS Code workspace(s) opened + JacCoder triggered.")
+    log.info("  Business   → Agents 6-11 complete. Logs in %s", run_dir)
     log.info("═" * 60)
 
 

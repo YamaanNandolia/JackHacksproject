@@ -3,7 +3,7 @@
 import from byllm.lib { Model }
 import from typing { Any }
 import json;
-import from env_loader { OPENAI_API_KEY }
+import from env_loader { OPENAI_API_KEY, DEFAULT_MODEL_NAME }
 import from agent2_data_gathering {
     ArticleItem,
     NewsCategory,
@@ -12,9 +12,9 @@ import from agent2_data_gathering {
     fetch_articles
 }
 
-glob llm = Model(model_name="gpt-4o-mini", api_key=OPENAI_API_KEY);
+glob llm = Model(model_name=DEFAULT_MODEL_NAME, api_key=OPENAI_API_KEY);
 
-glob MAX_REVIEW_ITERATIONS: int = 1;
+glob MAX_REVIEW_ITERATIONS: int = 3;
 
 """The result of a grouping review."""
 obj ReviewDecision {
@@ -98,38 +98,3 @@ def run_full_review() -> list[NewsCategory] {
     return categories;
 }
 
-walker ReviewerAgent {
-    can run with Root entry {
-        categories: list[NewsCategory] = run_full_review();
-        report categories;
-    }
-}
-
-with entry {
-    result: Any = root() spawn ReviewerAgent();
-    outcome: Any = result.reports[0];
-
-    if isinstance(outcome, str) {
-        print(f"\n=== Agent 3 Output ===\n{outcome}");
-    } else {
-        categories: list[NewsCategory] = outcome;
-        output: list[dict[str, Any]] = [];
-        for cat in categories {
-            articles_out: list[dict[str, str]] = [];
-            for art in cat.articles {
-                articles_out.append(
-                    {"title": art.title, "description": art.description}
-                );
-            }
-            output.append(
-                {
-                    "category_name": cat.category_name,
-                    "summary": cat.summary,
-                    "articles": articles_out
-                }
-            );
-        }
-        print("\n=== Agent 3 Output: Approved Categories for Agent 4 ===");
-        print(json.dumps(output, indent=2));
-    }
-}

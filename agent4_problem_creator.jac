@@ -3,11 +3,11 @@
 import from byllm.lib { Model }
 import from typing { Any }
 import json;
-import from env_loader { OPENAI_API_KEY }
+import from env_loader { OPENAI_API_KEY, DEFAULT_MODEL_NAME }
 import from agent3_reviewer { run_full_review }
 import from agent2_data_gathering { NewsCategory, ArticleItem }
 
-glob llm = Model(model_name="gpt-4o-mini", api_key=OPENAI_API_KEY);
+glob llm = Model(model_name=DEFAULT_MODEL_NAME, api_key=OPENAI_API_KEY);
 
 """A problem statement derived from a news category, with a relevance score."""
 obj ProblemStatement {
@@ -78,28 +78,3 @@ def run_problem_creation() -> list[ProblemStatement] {
     return problems;
 }
 
-walker ProblemCreatorAgent {
-    can run with Root entry {
-        problems: list[ProblemStatement] = run_problem_creation();
-        report problems;
-    }
-}
-
-with entry {
-    result: Any = root() spawn ProblemCreatorAgent();
-    problems: list[ProblemStatement] = result.reports[0];
-    output: list[dict[str, Any]] = [];
-    for p in problems {
-        item: Any = p;
-        output.append(
-            {
-                "category_name": item.category_name,
-                "problem": item.problem,
-                "score": item.score,
-                "reasoning": item.reasoning
-            }
-        );
-    }
-    print("\n=== Agent 4 Output: Problem Statements ===");
-    print(json.dumps(output, indent=2));
-}

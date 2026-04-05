@@ -1,0 +1,25 @@
+{
+  "id": "1775370987-01",
+  "slug": "cryptoreg-insight",
+  "prompt": "Create a web application named CryptoReg Insight that offers real-time updates on cryptocurrency regulations globally. The platform should include an interactive map showing regulations by region and customizable alerts for users when regulations change. It needs analysis tools to assess the market impact of regulatory changes and a user-friendly dashboard for presenting insights. The data model should include user accounts, regulatory updates, and market analysis records. The UI should facilitate easy access to regulatory information, alerts, and analytical tools.",
+  "build_spec": {
+    "app_name": "CryptoReg Insight",
+    "language": "jac",
+    "entry_point": "main.jac",
+    "features": [
+      "Real-time regulatory updates by region",
+      "Interactive map of regulations",
+      "Customizable alerts for changes in regulations",
+      "Analysis tools for market impact",
+      "User-friendly dashboard for insights"
+    ],
+    "tech_stack": "Ruby on Rails backend, Vue.js frontend, MySQL for database",
+    "ui": "web dashboard"
+  },
+  "_agent5": {
+    "category_name": "Financial Markets and Cryptocurrency",
+    "problem": "The rapidly evolving landscape of cryptocurrency regulations is creating confusion and uncertainty for investors and businesses, which can hinder market growth.",
+    "score": 9,
+    "description": "CryptoReg Insight is a comprehensive platform designed to provide real-time updates and insights on cryptocurrency regulations worldwide. Targeted at investors and businesses in the cryptocurrency space, this application helps users navigate the complex regulatory landscape by delivering timely information and analysis, thereby fostering informed decision-making and market growth."
+  }
+}

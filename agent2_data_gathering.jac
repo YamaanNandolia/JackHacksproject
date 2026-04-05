@@ -4,9 +4,9 @@ import from byllm.lib { Model }
 import from typing { Any }
 import json;
 import from agent1_lookout { Trend, get_top_trends }
-import from env_loader { OPENAI_API_KEY }
+import from env_loader { OPENAI_API_KEY, DEFAULT_MODEL_NAME }
 
-glob llm = Model(model_name="gpt-4o-mini", api_key=OPENAI_API_KEY);
+glob llm = Model(model_name=DEFAULT_MODEL_NAME, api_key=OPENAI_API_KEY);
 
 """A single news article with title and description."""
 obj ArticleItem {
@@ -64,45 +64,3 @@ def fetch_articles() -> list[ArticleItem] {
     return articles;
 }
 
-walker DataGatheringAgent {
-    can run with Root entry {
-        print("DataGatheringAgent: Fetching articles from Agent 1...");
-        raw_articles: list[Trend] = get_top_trends();
-        print(
-            f"DataGatheringAgent: Received {len(
-                raw_articles
-            )} articles. Grouping into categories..."
-        );
-
-        # Convert Trend objects to local ArticleItem for byllm schema compatibility
-        articles: list[ArticleItem] = [];
-        for t in raw_articles {
-            articles.append(ArticleItem(title=t.title, description=t.description));
-        }
-
-        categories: list[NewsCategory] = group_news_into_categories(articles);
-        report categories;
-        print(f"DataGatheringAgent: Grouped into {len(categories)} categories.");
-    }
-}
-
-with entry {
-    result: Any = root() spawn DataGatheringAgent();
-    raw_categories: list[NewsCategory] = result.reports[0];
-    output: list[dict[str, Any]] = [];
-    for cat in raw_categories {
-        articles_out: list[dict[str, str]] = [];
-        for art in cat.articles {
-            articles_out.append({"title": art.title, "description": art.description});
-        }
-        output.append(
-            {
-                "category_name": cat.category_name,
-                "summary": cat.summary,
-                "articles": articles_out
-            }
-        );
-    }
-    print("=== Agent 2 Output ===");
-    print(json.dumps(output, indent=2));
-}

@@ -1,0 +1,25 @@
+{
+  "id": "1775368183-01",
+  "slug": "recyclomate",
+  "prompt": "Create a mobile application called RecycloMate focused on reducing plastic waste and promoting recycling. The app should include a recycling guide that details what materials can be recycled and how to do it. It should have a locator feature to help users find nearby recycling centers. Implement a reward system that incentivizes users for recycling activities with points or discounts. Provide educational resources on reducing waste and sustainable living practices. Additionally, include community challenges to encourage participation. Use Flutter for cross-platform development, Firebase for backend services, and integrate Google Maps API for location functionalities.",
+  "build_spec": {
+    "app_name": "RecycloMate",
+    "language": "jac",
+    "entry_point": "main.jac",
+    "features": [
+      "Recycling Guide: Offers a comprehensive database of materials and their recycling guidelines.",
+      "Locator: Helps users find nearby recycling centers based on location.",
+      "Reward System: Provides incentives such as points or discounts for users who recycle regularly.",
+      "Educational Resources: Includes tips and articles on reducing plastic waste and sustainable practices.",
+      "Community Challenges: Engages users in local recycling challenges to foster community participation."
+    ],
+    "tech_stack": "Flutter for cross-platform mobile app, Firebase for backend services, Google Maps API for location services, Node.js for handling rewards logic",
+    "ui": "web dashboard"
+  },
+  "_agent5": {
+    "category_name": "Environmental Sustainability",
+    "problem": "Plastic waste continues to accumulate at an alarming rate, necessitating innovative solutions for reduction and recycling.",
+    "score": 9,
+    "description": "RecycloMate is a mobile application aimed at promoting recycling and reducing plastic waste. It helps users identify recyclable materials, provides local recycling locations, and incentivizes users with rewards for participating in recycling programs, contributing to a cleaner environment."
+  }
+}
