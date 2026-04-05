@@ -1,0 +1,18 @@
+[
+  {
+    "category_name": "Healthcare Operations",
+    "problem": "Dental clinics lose revenue when calls go unanswered",
+    "score": 9,
+    "software_name": "RecallIQ",
+    "description": "AI software that helps dental clinics recover missed calls, automate follow-up, and convert more booked appointments.",
+    "core_features": [
+      "Missed call detection",
+      "Automated SMS follow-up",
+      "Appointment booking via AI",
+      "Recall campaigns",
+      "Dashboard analytics"
+    ],
+    "tech_stack": "React, FastAPI, PostgreSQL, Twilio, OpenAI",
+    "prompt": "Build AI software for dental clinics to recover missed calls and automate follow-up."
+  }
+]
