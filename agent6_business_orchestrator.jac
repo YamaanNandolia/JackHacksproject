@@ -4,7 +4,6 @@ import from byllm.lib { Model }
 import from typing { Any }
 import json;
 import from env_loader { OPENAI_API_KEY, DEFAULT_MODEL_NAME }
-import from agent5_software_prompt { run_software_prompts, SoftwarePrompt }
 
 glob llm = Model(model_name=DEFAULT_MODEL_NAME, api_key=OPENAI_API_KEY);
 
@@ -75,46 +74,7 @@ For EACH solution, produce a BusinessReport with:
 Return exactly one BusinessReport per solution.
 """;
 
-"""Serialize software prompts list to JSON string for LLM input."""
-def serialize_prompts(prompts: list[SoftwarePrompt]) -> str {
-    output: list[dict[str, Any]] = [];
-    for sp in prompts {
-        item: Any = sp;
-        output.append(
-            {
-                "software_name": item.software_name,
-                "problem": item.problem,
-                "description": item.description,
-                "core_features": item.core_features,
-                "tech_stack": item.tech_stack
-            }
-        );
-    }
-    return json.dumps(output, indent=2);
-}
-
-"""Run the full pipeline through Agent 5 and return business reports."""
-def run_business_analysis() -> list[BusinessReport] {
-    print("BusinessOrchestrator: Getting software solutions from Agent 5...");
-    prompts: list[SoftwarePrompt] = run_software_prompts();
-    print(
-        f"BusinessOrchestrator: Received {len(
-            prompts
-        )} solutions. Running market research and competitive analysis..."
-    );
-
-    solutions_json: str = serialize_prompts(prompts);
-    reports: list[BusinessReport] = generate_business_reports(solutions_json);
-
-    print(f"BusinessOrchestrator: Generated {len(reports)} business reports.");
-    for r in reports {
-        item: Any = r;
-        print(f"  {item.software_name}: TAM={item.market_size.tam}, Competitors={len(item.competitors)}");
-    }
-    return reports;
-}
-
-"""Export: run full pipeline through Agent 6 and return business reports for downstream agents."""
-def run_business_reports() -> list[BusinessReport] {
-    return run_business_analysis();
+"""Serialize a list of dicts (software prompt data) to JSON string for LLM input."""
+def serialize_prompts(prompts: list[dict[str, Any]]) -> str {
+    return json.dumps(prompts, indent=2);
 }

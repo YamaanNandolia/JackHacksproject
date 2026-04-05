@@ -11,6 +11,8 @@ jac-env/
 .jir
 jac.toml
 .DS_Store
+node_modules/
+.jac/
 
 # Ignore Python bytecode
 __pycache__/

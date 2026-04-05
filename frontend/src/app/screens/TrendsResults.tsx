@@ -1,9 +1,24 @@
+import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router";
 import { useApp } from "../context/AppContext";
+import { triggerBusinessPipeline } from "../../services/api";
 
 export default function TrendsResults() {
   const navigate = useNavigate();
-  const { trendClusters, setSelectedCluster } = useApp();
+  const { trendClusters, setSelectedCluster, pipelineResults, setPipelineResults } = useApp();
+  const pipelineStarted = useRef(false);
+
+  useEffect(() => {
+    if (pipelineStarted.current || pipelineResults !== null) return;
+    pipelineStarted.current = true;
+    console.log("TrendsResults: firing agents 6-11 pipeline");
+    triggerBusinessPipeline().then((results) => {
+      if (results.length > 0) {
+        console.log(`TrendsResults: received ${results.length} pipeline bundles`);
+        setPipelineResults(results);
+      }
+    });
+  }, [pipelineResults, setPipelineResults]);
 
   // Safety check: ensure trendClusters is an array
   const clusters = Array.isArray(trendClusters) ? trendClusters : [];

@@ -95,7 +95,7 @@ walker SoftwarePromptAgent {
     }
 }
 
-with entry {
+with entry:__main__ {
     result: Any = root() spawn SoftwarePromptAgent();
     prompts: list[SoftwarePrompt] = result.reports[0];
     output: list[dict[str, Any]] = [];

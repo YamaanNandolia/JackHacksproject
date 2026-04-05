@@ -3,9 +3,128 @@ import { useNavigate } from 'react-router';
 import { useApp } from '../context/AppContext';
 import { generateBusinessIntelligence } from '../data/mockData';
 
+function joinArray(arr: any, sep = '; '): string {
+  if (Array.isArray(arr)) return arr.join(sep);
+  return String(arr ?? '');
+}
+
+function mapBundleToIntelligence(bundle: any) {
+  const b6 = bundle.agent_6_business_intelligence ?? {};
+  const b7 = bundle.agent_7_customer_model ?? {};
+  const b8 = bundle.agent_8_value_proposition ?? {};
+  const b9 = bundle.agent_9_sales_infrastructure ?? {};
+  const b10 = bundle.agent_10_partnerships ?? {};
+  const ms = b6.market_size ?? {};
+  const icp = b7.icp ?? {};
+  const roi = b8.roi_model ?? {};
+
+  return {
+    market: {
+      tam: ms.tam ?? '—',
+      sam: ms.sam ?? '—',
+      som: ms.som ?? '—',
+      rationale: ms.sizing_rationale ?? '',
+      tailwinds: Array.isArray(b6.tailwinds) ? b6.tailwinds : [],
+      headwinds: Array.isArray(b6.headwinds) ? b6.headwinds : [],
+      buyerAlternatives: Array.isArray(b6.current_buyer_alternatives)
+        ? b6.current_buyer_alternatives.map((a: string) => ({ name: a, limitation: '' }))
+        : [],
+    },
+    competition: {
+      competitors: Array.isArray(b6.competitors)
+        ? b6.competitors.map((c: any) => ({
+            name: c.name,
+            capabilities: c.core_capabilities,
+            pricing: c.pricing_model,
+            strengths: c.strengths,
+            weaknesses: c.weaknesses,
+          }))
+        : [],
+      pricingIntelligence: b6.pricing_intelligence ?? '',
+      positioning: b6.positioning_recommendation ?? '',
+    },
+    buyer: {
+      icp: {
+        companySize: icp.company_size_headcount ?? icp.company_size_revenue ?? '',
+        industry: icp.industry_vertical ?? '',
+        techMaturity: joinArray(icp.tech_stack_signals),
+        budget: icp.company_size_revenue ?? '',
+        buyingTriggers: Array.isArray(icp.buying_triggers) ? icp.buying_triggers : [],
+      },
+      triggers: Array.isArray(icp.buying_triggers) ? icp.buying_triggers : [],
+      personas: Array.isArray(b7.buyer_personas)
+        ? b7.buyer_personas.map((p: any) => ({
+            title: p.role,
+            goals: joinArray(p.top_goals),
+            painPoints: joinArray(p.top_pain_points),
+            kpis: joinArray(p.kpis),
+            discoveryChannels: joinArray(p.discovery_channels),
+            objections: joinArray(p.common_objections),
+          }))
+        : [],
+    },
+    financials: {
+      roiModel: Array.isArray(roi.line_items)
+        ? roi.line_items.map((li: any) => ({
+            metric: li.metric,
+            currentState: li.current_state,
+            improvement: li.expected_improvement,
+            annualValue: li.annual_value,
+            payback: roi.payback_period ?? '',
+          }))
+        : [],
+      assumptions: joinArray(roi.key_assumptions),
+      pricingTiers: [
+        { name: 'Starter', price: '$500/month', target: 'Small teams (5-20 people)' },
+        { name: 'Professional', price: '$2,500/month', target: 'Growing teams (20-100 people)' },
+        { name: 'Enterprise', price: 'Custom', target: 'Large organizations (100+ people)' },
+      ],
+    },
+    gtm: {
+      crm: b9.crm_setup ?? {},
+      toolStack: [],
+      prospecting: { strategy: b9.prospect_list_strategy ?? '', channels: [] },
+      demoFlow: Array.isArray(b9.pipeline_stages)
+        ? b9.pipeline_stages.map((s: any) => ({
+            stage: s.stage_name,
+            duration: '',
+            goal: s.description,
+          }))
+        : [],
+      documents: Array.isArray(b9.commercial_documents)
+        ? b9.commercial_documents.map((d: any) => ({
+            name: d.document_name,
+            purpose: d.purpose,
+            negotiationPoints: joinArray(d.key_terms_to_negotiate),
+          }))
+        : [],
+    },
+    partnerships: {
+      partners: Array.isArray(b10.partner_landscape)
+        ? b10.partner_landscape.map((p: any) => ({
+            rank: p.priority_rank,
+            name: p.name,
+            type: p.partner_type,
+            icpOverlap: p.icp_overlap,
+            complementaryValue: p.complementary_value,
+          }))
+        : [],
+      integrations: Array.isArray(b10.top_integration_partnerships)
+        ? b10.top_integration_partnerships.map((i: any) => ({
+            partner: i.platform_name,
+            rationale: i.integration_rationale,
+            milestones: [i.first_milestone],
+          }))
+        : [],
+      valueExchange: '',
+      experiments: [],
+    },
+  };
+}
+
 export default function Dashboard() {
   const navigate = useNavigate();
-  const { selectedCluster } = useApp();
+  const { selectedCluster, pipelineResults } = useApp();
   const [intelligence, setIntelligence] = useState<any>(null);
   const [activeSection, setActiveSection] = useState('overview');
 
@@ -14,8 +133,13 @@ export default function Dashboard() {
       navigate('/trends/results');
       return;
     }
-    setIntelligence(generateBusinessIntelligence(selectedCluster));
-  }, [selectedCluster, navigate]);
+    const bundle = pipelineResults?.find(
+      (b: any) => b.software_name === selectedCluster.title,
+    );
+    setIntelligence(
+      bundle ? mapBundleToIntelligence(bundle) : generateBusinessIntelligence(selectedCluster),
+    );
+  }, [selectedCluster, pipelineResults, navigate]);
 
   if (!selectedCluster || !intelligence) return null;
 

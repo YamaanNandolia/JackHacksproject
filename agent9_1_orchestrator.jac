@@ -121,7 +121,20 @@ def run_full_pipeline() -> list[OrchestratorBundle] {
 
     # ── Sequential: agents 6 → 7 → 8 ────────────────────────────────────────
     print("Phase 2/4  [Agent 6]   Running market research and competitive analysis...");
-    solutions_json: str = serialize_prompts(software_prompts);
+    prompts_as_dicts: list[dict[str, Any]] = [];
+    for sp in software_prompts {
+        item: Any = sp;
+        prompts_as_dicts.append(
+            {
+                "software_name": item.software_name,
+                "problem": item.problem,
+                "description": item.description,
+                "core_features": item.core_features,
+                "tech_stack": item.tech_stack
+            }
+        );
+    }
+    solutions_json: str = serialize_prompts(prompts_as_dicts);
     business_reports: list[BusinessReport] = generate_business_reports(solutions_json);
     print(f"           [Agent 6]   Done — {len(business_reports)} business reports.\n");
 
@@ -209,11 +222,9 @@ walker OrchestratorAgent {
     }
 }
 
-with entry {
-    result: Any = root() spawn OrchestratorAgent();
-    bundles: list[OrchestratorBundle] = result.reports[0];
+"""Serialize a list of OrchestratorBundles into a JSON-friendly list of dicts."""
+def serialize_bundles(bundles: list[OrchestratorBundle]) -> list[dict[str, Any]] {
     output: list[dict[str, Any]] = [];
-
     for b in bundles {
         bundle: Any = b;
 
@@ -403,7 +414,6 @@ with entry {
         output.append(
             {
                 "software_name": bundle.software_name,
-
                 "agent_6_business_intelligence": {
                     "market_size": {
                         "tam": br_ms.tam,
@@ -531,6 +541,6 @@ with entry {
         );
     }
 
-    print("\n=== Agent 9.1 Output: Full Solution Bundles (Agents 6–11) ===");
-    print(json.dumps(output, indent=2));
+    return output;
 }
+

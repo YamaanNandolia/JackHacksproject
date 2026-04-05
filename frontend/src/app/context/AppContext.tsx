@@ -18,6 +18,8 @@ interface AppContextType {
   setSelectedCluster: (cluster: TrendCluster | null) => void;
   trendClusters: TrendCluster[];
   setTrendClusters: (clusters: TrendCluster[]) => void;
+  pipelineResults: any[] | null;
+  setPipelineResults: (results: any[] | null) => void;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -27,6 +29,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
     null,
   );
   const [trendClusters, setTrendClusters] = useState<TrendCluster[]>([]);
+  const [pipelineResults, setPipelineResults] = useState<any[] | null>(null);
 
   return (
     <AppContext.Provider
@@ -35,6 +38,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
         setSelectedCluster,
         trendClusters,
         setTrendClusters,
+        pipelineResults,
+        setPipelineResults,
       }}
     >
       <div className="dark">{children}</div>
