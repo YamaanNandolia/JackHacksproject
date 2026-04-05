@@ -1,0 +1,25 @@
+{
+  "id": "1775361125-01",
+  "slug": "ecoalert",
+  "prompt": "Develop an application named EcoAlert that serves as an environmental monitoring and alert system. The app should provide real-time updates on severe weather events, display an interactive map of climate-related occurrences, and allow community members to report local environmental issues. It should also include educational resources on climate resilience and tools for emergency response planning. Build the backend using Python, the frontend as a React web app, and utilize the OpenStreetMap API for mapping features.",
+  "build_spec": {
+    "app_name": "EcoAlert",
+    "language": "jac",
+    "entry_point": "main.jac",
+    "features": [
+      "Real-time weather alerts and updates",
+      "Interactive map of climate events",
+      "Community reporting tools",
+      "Educational resources on climate resilience",
+      "Emergency response planning tools"
+    ],
+    "tech_stack": "Python backend, React web app, OpenStreetMap API",
+    "ui": "web dashboard"
+  },
+  "_agent5": {
+    "category_name": "Environment",
+    "problem": "Climate change is causing severe weather events that threaten communities and ecosystems, necessitating immediate and effective response strategies.",
+    "score": 10,
+    "description": "EcoAlert is an environmental monitoring application that provides real-time data on climate-related events, helping communities prepare for and respond to severe weather. It aims to empower users with information and resources to mitigate the impacts of climate change on their local ecosystems and communities."
+  }
+}

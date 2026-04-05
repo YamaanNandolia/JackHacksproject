@@ -1,0 +1,24 @@
+{
+  "id": "1775350626-01",
+  "slug": "spacefund",
+  "prompt": "Develop an application named SpaceFund that serves as a crowdfunding platform for space exploration projects. The app should allow users to submit project proposals for funding and provide a user-friendly interface for donors to contribute. Implement features for project tracking and updates so that backers can see the progress of funded projects. Additionally, include community engagement tools such as forums and discussion boards for users to interact. The data model should comprise user profiles, project proposals, funding records, and community posts. The UI should be engaging, ensuring easy navigation and a clear display of project information.",
+  "build_spec": {
+    "app_name": "SpaceFund",
+    "language": "jac",
+    "entry_point": "main.jac",
+    "features": [
+      "Project submission and funding request system",
+      "User-friendly donation interface",
+      "Project tracking and updates for backers",
+      "Community engagement tools for discussion and support"
+    ],
+    "tech_stack": "Django backend, Vue.js frontend, PostgreSQL for data storage, GraphQL API",
+    "ui": "web dashboard"
+  },
+  "_agent5": {
+    "category_name": "Space Exploration",
+    "problem": "NASA is at risk due to proposed budget cuts, threatening the future of space missions and scientific research.",
+    "score": 9,
+    "description": "SpaceFund is a crowdfunding platform specifically designed to support space exploration projects and research initiatives. It connects space enthusiasts, scientists, and organizations with potential donors who want to contribute to the future of space missions. By providing a transparent platform for funding proposals and project updates, SpaceFund aims to mitigate the impacts of budget cuts on NASA and other space agencies, ensuring continued advancement in space science."
+  }
+}

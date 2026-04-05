@@ -1,0 +1,25 @@
+{
+  "id": "1775358955-01",
+  "slug": "forestguardian",
+  "prompt": "Create an application named ForestGuardian aimed at combating deforestation. The app should provide real-time monitoring of forest health using satellite data, and allow users to report deforestation activities through a user-friendly interface. Include a database of ongoing reforestation projects that users can support, educational resources on conservation practices, and a section for volunteering opportunities with local conservation initiatives.",
+  "build_spec": {
+    "app_name": "ForestGuardian",
+    "language": "jac",
+    "entry_point": "main.jac",
+    "features": [
+      "Real-time forest health monitoring using satellite data",
+      "User reporting system for deforestation activities",
+      "Database of ongoing reforestation projects",
+      "Educational resources on conservation practices",
+      "Volunteer opportunities for local conservation initiatives"
+    ],
+    "tech_stack": "Python backend, Angular frontend, Google Earth Engine API",
+    "ui": "web dashboard"
+  },
+  "_agent5": {
+    "category_name": "Environmental Issues",
+    "problem": "The accelerating rate of deforestation poses a severe threat to ecosystems and climate stability, requiring immediate and innovative solutions for conservation.",
+    "score": 10,
+    "description": "ForestGuardian is an application designed to combat deforestation by enabling users to monitor forest health and participate in conservation efforts. Targeting environmental activists, researchers, and the general public, the app provides tools for reporting deforestation activities, tracking reforestation projects, and connecting users with local conservation initiatives."
+  }
+}

@@ -16,6 +16,10 @@ import logging
 import re
 import subprocess
 import sys
+import tempfile
+import textwrap
+import threading
+import time
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -34,7 +38,7 @@ log = logging.getLogger("jaccoder-launcher")
 # ---------------------------------------------------------------------------
 LAUNCHER_DIR = Path(__file__).resolve().parent          # automation/launcher/
 PROJECT_ROOT = LAUNCHER_DIR.parent.parent               # Final1/
-GENERATED_APPS_DIR = PROJECT_ROOT / "generated_apps"
+GENERATED_APPS_DIR = Path("/Users/ayushbhardwaj/Documents/JacGeneratedApps")
 
 # ---------------------------------------------------------------------------
 # Helpers
@@ -158,6 +162,83 @@ def scaffold_jac_project(workspace: Path, job: dict) -> None:
         log.info("Scaffolded jac.toml")
 
 
+def watch_and_paste(workspace_name: str, timeout_s: int = 120) -> None:
+    """
+    Poll for the trigger file written by the VS Code companion extension after
+    jaccoder.focusChat + clipboard set.  When found, run the paste+submit
+    AppleScript from *outside* VS Code so macOS Accessibility permissions apply.
+    """
+    trigger = Path(tempfile.gettempdir()) / f"jaccoder_paste_{workspace_name}.trigger"
+    log.info("Watching for JacCoder paste trigger (timeout %ds): %s", timeout_s, trigger)
+
+    deadline = time.time() + timeout_s
+    while time.time() < deadline:
+        if trigger.exists():
+            try:
+                trigger.unlink()
+            except OSError:
+                pass
+
+            log.info("Paste trigger detected — running paste+submit AppleScript…")
+
+            # This runs outside the VS Code sandbox, so Accessibility works.
+            script = textwrap.dedent("""\
+                set vsApp to ""
+                set candidates to {"Visual Studio Code", "Code - Insiders", "VSCodium", "Code"}
+                repeat with candidate in candidates
+                  try
+                    tell application "System Events"
+                      if exists process candidate then
+                        set vsApp to candidate as string
+                        exit repeat
+                      end if
+                    end tell
+                  end try
+                end repeat
+                if vsApp is "" then error "VS Code is not running."
+                tell application vsApp to activate
+                delay 0.8
+                tell application "System Events"
+                  tell process vsApp
+                    keystroke "v" using {command down}
+                    delay 0.5
+                    key code 36
+                  end tell
+                end tell
+                return "OK"
+            """)
+
+            try:
+                result = subprocess.run(
+                    ["osascript", "-e", script],
+                    capture_output=True,
+                    text=True,
+                    timeout=20,
+                )
+                if result.returncode == 0:
+                    log.info("✓ Paste+submit completed successfully.")
+                else:
+                    log.error(
+                        "✗ AppleScript failed (exit %d): %s",
+                        result.returncode,
+                        result.stderr.strip(),
+                    )
+            except subprocess.TimeoutExpired:
+                log.error("✗ AppleScript timed out.")
+            except FileNotFoundError:
+                log.error("✗ osascript not found — macOS only.")
+            return
+
+        time.sleep(0.4)
+
+    log.warning(
+        "Paste trigger not detected within %ds for workspace '%s'. "
+        "Manual action: click JacCoder input, Cmd+V, Enter.",
+        timeout_s,
+        workspace_name,
+    )
+
+
 def open_in_vscode(workspace: Path) -> None:
     """Open the workspace folder in a new VS Code window."""
     try:
@@ -216,7 +297,22 @@ def main() -> None:
         scaffold_jac_project(workspace, job)
 
     if not args.no_vscode:
+        # Start the watcher BEFORE opening VS Code so it's ready the moment
+        # the companion extension writes its paste trigger file.
+        watcher = threading.Thread(
+            target=watch_and_paste,
+            args=(workspace.name,),
+            daemon=True,
+        )
+        watcher.start()
+        log.info("Paste watcher started for workspace: %s", workspace.name)
+
         open_in_vscode(workspace)
+
+        log.info("Waiting for JacCoder trigger (up to 120s)…")
+        watcher.join(timeout=125)
+        if watcher.is_alive():
+            log.warning("Watcher still running after 125s — proceeding without waiting.")
 
     log.info("Done. Workspace ready at: %s", workspace)
     print(f"\nWorkspace: {workspace}")

@@ -1,0 +1,25 @@
+{
+  "id": "1775356003-01",
+  "slug": "aerocost-optimizer",
+  "prompt": "Develop an application named AeroCost Optimizer for the airline industry, aimed at managing operational costs effectively. The app should analyze fuel consumption, provide cost management dashboards, and suggest route optimizations to enhance operational efficiency. Key features will include detailed fuel consumption analytics, maintenance scheduling, and reporting tools for financial analysis. The data model should encompass airline operations, cost metrics, fuel usage logs, and maintenance records. The UI should be intuitive, providing airline operators with easy access to insights and recommendations to optimize their operations and reduce costs.",
+  "build_spec": {
+    "app_name": "AeroCost Optimizer",
+    "language": "jac",
+    "entry_point": "main.jac",
+    "features": [
+      "Fuel consumption analysis",
+      "Cost management dashboard",
+      "Route optimization suggestions",
+      "Maintenance scheduling and tracking",
+      "Reporting tools for financial analysis"
+    ],
+    "tech_stack": "Java Spring Boot backend, React frontend, MySQL database",
+    "ui": "web dashboard"
+  },
+  "_agent5": {
+    "category_name": "Aerospace and Aviation",
+    "problem": "Rising operational costs in the airline industry, particularly due to increased fuel prices, are leading to higher fees for consumers and may affect overall travel accessibility.",
+    "score": 9,
+    "description": "AeroCost Optimizer is an innovative software solution designed for the airline industry to help manage and optimize operational costs. By analyzing fuel consumption, maintenance schedules, and route efficiency, the application provides actionable insights that enable airlines to reduce expenses and maintain competitive pricing for consumers. The app aims to enhance overall operational efficiency, making air travel more accessible and affordable for everyone."
+  }
+}

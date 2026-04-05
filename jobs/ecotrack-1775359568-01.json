@@ -1,0 +1,24 @@
+{
+  "id": "1775359568-01",
+  "slug": "ecotrack",
+  "prompt": "Create a web application called EcoTrack that helps users track their carbon footprint and promotes sustainable practices. The app should include a carbon footprint calculator that analyzes user input and provides insights on their environmental impact. Offer personalized suggestions for reducing carbon emissions based on user behavior. Implement community challenges where users can participate in eco-friendly initiatives and track their progress. Provide reporting tools to visualize individual and community impact over time. The backend should be built with Flask, using SQLite for data storage and integrating third-party APIs for carbon data.",
+  "build_spec": {
+    "app_name": "EcoTrack",
+    "language": "jac",
+    "entry_point": "main.jac",
+    "features": [
+      "Carbon footprint calculator",
+      "Personalized sustainability suggestions",
+      "Community challenges for eco-friendly practices",
+      "Progress tracking and reporting tools"
+    ],
+    "tech_stack": "Flask backend, Vue.js frontend, SQLite database, third-party APIs for carbon data",
+    "ui": "web dashboard"
+  },
+  "_agent5": {
+    "category_name": "Environmental Issues",
+    "problem": "The escalating effects of climate change necessitate immediate action for sustainable practices and technologies to mitigate environmental degradation.",
+    "score": 10,
+    "description": "EcoTrack is an application designed to help individuals and businesses track, manage, and reduce their carbon footprint through sustainable practices. It provides insights and suggestions for eco-friendly behaviors, promoting environmental responsibility and awareness."
+  }
+}

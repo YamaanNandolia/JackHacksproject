@@ -1,0 +1,24 @@
+{
+  "id": "1775353058-01",
+  "slug": "farewise",
+  "prompt": "Develop an application named FareWise that allows airlines to manage their pricing strategies effectively. The app should feature dynamic pricing management to adjust fees based on demand. Implement a consumer fare transparency dashboard that displays fare structures, including bag fees, to potential travelers. Include a fee comparison tool for consumers to compare prices across different airlines. Additionally, provide analytics for airlines to evaluate their pricing strategies and make data-driven decisions. The UI should be user-friendly for both airline staff and consumers.",
+  "build_spec": {
+    "app_name": "FareWise",
+    "language": "jac",
+    "entry_point": "main.jac",
+    "features": [
+      "Dynamic pricing management",
+      "Consumer fare transparency dashboard",
+      "Fee comparison tool",
+      "Analytics for pricing strategies"
+    ],
+    "tech_stack": "Python backend, React frontend, PostgreSQL database",
+    "ui": "web dashboard"
+  },
+  "_agent5": {
+    "category_name": "Business and Economy",
+    "problem": "Rising operational costs in the airline industry, exemplified by increased bag fees, are burdening consumers and could lead to decreased travel demand.",
+    "score": 9,
+    "description": "FareWise is a fare management application aimed at helping airlines optimize their pricing strategies while providing transparency to consumers. The app allows airlines to manage fees, including bag fees, and offers consumers a comprehensive view of fare structures, helping them make informed travel decisions."
+  }
+}

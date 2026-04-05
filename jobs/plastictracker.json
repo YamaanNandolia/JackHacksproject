@@ -1,0 +1,25 @@
+{
+  "id": "1775362271-01",
+  "slug": "plastictracker",
+  "prompt": "Create 'PlasticTracker', a web application designed to help users track and reduce their plastic usage. The application should allow users to input their plastic consumption data, generate personalized reduction plans, and participate in community challenges. It should include educational resources on sustainability and report on user progress with analytics. The data model should encompass user profiles, consumption records, and community challenge data. The UI should promote user engagement, with clear calls to action and progress tracking features.",
+  "build_spec": {
+    "app_name": "PlasticTracker",
+    "language": "jac",
+    "entry_point": "main.jac",
+    "features": [
+      "Plastic usage tracking",
+      "Personalized reduction plans",
+      "Community challenges and engagement",
+      "Educational resources on sustainability",
+      "Reporting and analytics on progress"
+    ],
+    "tech_stack": "Ruby on Rails backend, Vue.js frontend, SQLite, API for community engagement",
+    "ui": "web dashboard"
+  },
+  "_agent5": {
+    "category_name": "Environmental Issues",
+    "problem": "The escalating plastic waste crisis requires innovative software solutions to track, manage, and reduce plastic usage effectively.",
+    "score": 9,
+    "description": "PlasticTracker is a comprehensive management application aimed at individuals and organizations seeking to reduce plastic waste. By providing tracking mechanisms, educational resources, and community engagement features, it empowers users to monitor their plastic usage and implement reduction strategies, fostering a collective effort towards sustainability."
+  }
+}

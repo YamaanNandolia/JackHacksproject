@@ -1,0 +1,25 @@
+{
+  "id": "1775364324-01",
+  "slug": "ecotracker",
+  "prompt": "Develop a web application called EcoTracker designed to help users mitigate climate change effects. The app should include a carbon footprint calculator, tools for managing renewable energy projects, and access to real-time environmental data. Users should be able to participate in community initiatives and challenges related to sustainability. The backend should be developed in Python, and the frontend should use Angular for a responsive user experience. Utilize Firebase for real-time data updates and ensure educational resources on sustainability are easily accessible within the app.",
+  "build_spec": {
+    "app_name": "EcoTracker",
+    "language": "jac",
+    "entry_point": "main.jac",
+    "features": [
+      "Carbon footprint calculator",
+      "Renewable energy project management tools",
+      "Real-time environmental data tracking",
+      "Community initiatives and challenges",
+      "Educational resources on sustainability"
+    ],
+    "tech_stack": "Python backend, Angular frontend, Firebase for real-time data",
+    "ui": "web dashboard"
+  },
+  "_agent5": {
+    "category_name": "Environment",
+    "problem": "Climate change poses an urgent threat to ecosystems, requiring immediate and innovative solutions to mitigate its impact.",
+    "score": 10,
+    "description": "EcoTracker is an innovative application aimed at individuals and organizations striving to mitigate climate change impact. It provides tools for tracking carbon footprints, managing renewable energy projects, and accessing real-time environmental data to help users make informed decisions and take meaningful action toward sustainability."
+  }
+}

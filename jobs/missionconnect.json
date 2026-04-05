@@ -1,0 +1,25 @@
+{
+  "id": "1775357739-01",
+  "slug": "missionconnect",
+  "prompt": "Create an app named MissionConnect aimed at improving communication and task management for astronauts on space missions. The app should allow real-time communication with mission control using WebSocket technology. Include interactive troubleshooting guides that astronauts can access based on their current technical issues. Implement a task assignment and tracking system where mission control can assign tasks to astronauts, and they can update their progress. Ensure the app has offline functionality for critical tasks and an emergency alert system that allows astronauts to send alerts to mission control instantly. The UI should be intuitive, with clear navigation for communication, troubleshooting, and tasks, and should be responsive to various screen sizes.",
+  "build_spec": {
+    "app_name": "MissionConnect",
+    "language": "jac",
+    "entry_point": "main.jac",
+    "features": [
+      "Real-time communication with mission control",
+      "Interactive troubleshooting guides for technical issues",
+      "Task assignment and tracking system",
+      "Offline functionality for critical tasks",
+      "Emergency alert system for urgent situations"
+    ],
+    "tech_stack": "Node.js backend, React Native mobile app, WebSocket for real-time communication, SQLite for offline data storage",
+    "ui": "web dashboard"
+  },
+  "_agent5": {
+    "category_name": "Space Exploration",
+    "problem": "Astronauts face significant communication and technical issues while on space missions, impacting their ability to perform tasks effectively.",
+    "score": 8,
+    "description": "MissionConnect is a communication and task management app specifically designed for astronauts on space missions. It streamlines communication between astronauts and mission control, providing real-time updates, troubleshooting guides, and task management tools to enhance mission effectiveness and safety."
+  }
+}

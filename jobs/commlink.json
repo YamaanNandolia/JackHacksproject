@@ -1,0 +1,25 @@
+{
+  "id": "1775356200-01",
+  "slug": "commlink",
+  "prompt": "Build a mobile application named CommLink for astronauts that allows real-time access to emails and communication with ground control. The app should feature a responsive UI that displays emails in a list format with the ability to read, reply, and send messages. Implement offline message queuing so users can compose emails and send them later when connectivity is restored. The app must ensure secure communication using encryption and notify users of incoming messages and status updates. Include an emergency communication protocol that allows astronauts to send alerts to ground control even during connectivity issues. Use a Node.js backend for handling email retrieval and WebSocket for real-time message updates.",
+  "build_spec": {
+    "app_name": "CommLink",
+    "language": "jac",
+    "entry_point": "main.jac",
+    "features": [
+      "Real-time email access",
+      "Offline message queuing",
+      "Secure communication channels",
+      "Status update notifications",
+      "Emergency communication protocol"
+    ],
+    "tech_stack": "Node.js backend, React Native frontend, WebSocket for real-time communication",
+    "ui": "web dashboard"
+  },
+  "_agent5": {
+    "category_name": "Space Exploration",
+    "problem": "Astronauts on missions face significant communication and operational challenges due to software malfunctions, such as being unable to access emails during critical missions.",
+    "score": 8,
+    "description": "CommLink is a robust communication application designed specifically for astronauts on space missions, enabling them to access crucial emails and communicate with ground control seamlessly. The app ensures reliable connectivity even in challenging environments, allowing astronauts to focus on their critical missions without communication interruptions."
+  }
+}

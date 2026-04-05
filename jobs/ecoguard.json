@@ -1,0 +1,25 @@
+{
+  "id": "1775358508-01",
+  "slug": "ecoguard",
+  "prompt": "Create a web application named 'EcoGuard' focused on addressing climate change-induced biodiversity loss. The application should feature tools for biodiversity monitoring, allowing users to visualize data related to local species and ecosystems. Implement reporting functionalities where users can log sightings of endangered species and receive alerts on local conservation needs. Include project management tools for organizing conservation initiatives and coordinating volunteer efforts. Provide educational resources that inform users about local ecosystems and the impacts of climate change. Lastly, integrate community engagement features that encourage local groups to participate in conservation activities.",
+  "build_spec": {
+    "app_name": "EcoGuard",
+    "language": "jac",
+    "entry_point": "main.jac",
+    "features": [
+      "Biodiversity monitoring tools with data visualization",
+      "Reporting features for endangered species sightings",
+      "Conservation project management and volunteer coordination",
+      "Educational resources on local ecosystems and climate impact",
+      "Community engagement features for local conservation efforts"
+    ],
+    "tech_stack": "Ruby on Rails backend, Vue.js frontend, SQLite database",
+    "ui": "web dashboard"
+  },
+  "_agent5": {
+    "category_name": "Environmental Issues",
+    "problem": "Climate change is causing significant biodiversity loss, necessitating immediate action to protect ecosystems.",
+    "score": 10,
+    "description": "EcoGuard is a conservation management application designed to empower individuals and organizations to take action against biodiversity loss caused by climate change. By providing tools for monitoring, reporting, and taking conservation actions, it aims to mobilize community efforts towards ecosystem protection."
+  }
+}

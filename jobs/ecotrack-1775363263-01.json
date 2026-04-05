@@ -1,0 +1,25 @@
+{
+  "id": "1775363263-01",
+  "slug": "ecotrack",
+  "prompt": "Create an application called EcoTrack that focuses on promoting sustainable practices and tracking pollution levels. The app should feature a carbon footprint calculator that helps users understand their impact on the environment. Include a pollution monitoring dashboard that provides real-time data on local pollution levels. Create a resource hub containing information on sustainable living practices. Allow users to participate in community challenges aimed at reducing environmental impact, incorporating gamification elements to encourage eco-friendly actions. The UI should be engaging and informative, with clear visualizations of data.",
+  "build_spec": {
+    "app_name": "EcoTrack",
+    "language": "jac",
+    "entry_point": "main.jac",
+    "features": [
+      "Carbon Footprint Calculator",
+      "Pollution Monitoring Dashboard",
+      "Sustainability Resource Hub",
+      "Community Challenge Participation",
+      "Gamification of Eco-Friendly Actions"
+    ],
+    "tech_stack": "Django backend, Vue.js frontend, SQLite database, REST API",
+    "ui": "web dashboard"
+  },
+  "_agent5": {
+    "category_name": "Environmental Issues",
+    "problem": "Climate change and ocean pollution continue to escalate, demanding immediate action for sustainable practices and pollution reduction.",
+    "score": 10,
+    "description": "EcoTrack is a comprehensive platform designed to promote sustainable practices and track pollution levels in real-time. It allows users to monitor their carbon footprint, access resources for sustainable living, and participate in community initiatives focused on reducing environmental impact."
+  }
+}

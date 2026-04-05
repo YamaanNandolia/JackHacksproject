@@ -1,0 +1,25 @@
+{
+  "id": "1775359403-01",
+  "slug": "ecotrack",
+  "prompt": "Develop a web application named 'EcoTrack' that allows users to track their carbon footprint and encourages sustainable practices. The app should include a comprehensive carbon footprint calculator that analyzes users' daily activities and provides insights. Based on the analysis, it should generate personalized sustainability action plans tailored to the user's lifestyle. A community platform must be included where users can share tips, success stories, and collaborate on sustainability projects. Implement gamification features such as badges and leaderboards to motivate users. Additionally, integrate information about local sustainability initiatives that users can get involved in. The tech stack should include a Django backend, Vue.js frontend, and PostgreSQL database.",
+  "build_spec": {
+    "app_name": "EcoTrack",
+    "language": "jac",
+    "entry_point": "main.jac",
+    "features": [
+      "Carbon footprint calculator",
+      "Personalized sustainability action plans",
+      "Community platform for sharing tips and achievements",
+      "Gamification elements to encourage eco-friendly behavior",
+      "Integration with local sustainability initiatives"
+    ],
+    "tech_stack": "Django backend, Vue.js frontend, PostgreSQL database",
+    "ui": "web dashboard"
+  },
+  "_agent5": {
+    "category_name": "Environmental Issues",
+    "problem": "The escalating climate crisis necessitates immediate action and innovation to reduce carbon emissions and promote sustainability on a global scale.",
+    "score": 10,
+    "description": "EcoTrack is a web application designed to help individuals and organizations track their carbon footprint and implement sustainable practices. By providing personalized recommendations and a community platform, EcoTrack empowers users to take immediate action against climate change and promotes collaborative efforts for a greener future."
+  }
+}

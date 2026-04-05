@@ -1,0 +1,24 @@
+{
+  "id": "1775358207-01",
+  "slug": "ecotrack",
+  "prompt": "Build an application called EcoTrack that assists users in monitoring environmental changes and promoting sustainability. The app should provide real-time tracking of climate data and allow users to report environmental impacts they observe. Implement tools that help users create sustainability action plans based on their data. Include a community engagement platform where users can share experiences and solutions. Use Ruby on Rails for the backend, Vue.js for the frontend, and PostgreSQL for the database.",
+  "build_spec": {
+    "app_name": "EcoTrack",
+    "language": "jac",
+    "entry_point": "main.jac",
+    "features": [
+      "Real-time climate data tracking",
+      "Impact reporting tools",
+      "Sustainability action plan generator",
+      "Community engagement platform"
+    ],
+    "tech_stack": "Ruby on Rails backend, Vue.js frontend, PostgreSQL",
+    "ui": "web dashboard"
+  },
+  "_agent5": {
+    "category_name": "Environmental Changes",
+    "problem": "Record temperatures and climate change effects are creating urgent needs for accessible and effective solutions to mitigate environmental impacts.",
+    "score": 10,
+    "description": "EcoTrack is a comprehensive application focused on monitoring environmental changes and promoting sustainability efforts. It is designed for individuals, organizations, and governments to track climate data, report environmental impacts, and access tools for sustainable practices."
+  }
+}

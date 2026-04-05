@@ -1,0 +1,25 @@
+{
+  "id": "1775357494-01",
+  "slug": "costsaver",
+  "prompt": "Create a web application named CostSaver that assists travel businesses in managing operational costs. The app should feature a dashboard that provides analysis of fuel consumption and operational expenses, along with price optimization recommendations based on data analysis. Include reports on consumer spending trends and alerts for significant changes in costs. The application should integrate with popular financial software to ensure seamless data flow and provide a user-friendly interface for business owners to navigate and utilize insights for strategic decision-making.",
+  "build_spec": {
+    "app_name": "CostSaver",
+    "language": "jac",
+    "entry_point": "main.jac",
+    "features": [
+      "Cost analysis dashboard for fuel and operational expenses",
+      "Price optimization recommendations based on data analysis",
+      "Consumer spending trend reports",
+      "Alerts for significant cost changes",
+      "Integration with financial software for seamless data flow"
+    ],
+    "tech_stack": "Ruby on Rails backend, Angular frontend, MySQL database",
+    "ui": "web dashboard"
+  },
+  "_agent5": {
+    "category_name": "Finance and Business",
+    "problem": "Rising operational costs, such as fuel prices, are leading to increased fees for consumers, which can affect travel accessibility and overall consumer spending.",
+    "score": 9,
+    "description": "CostSaver is an analytical tool for travel businesses that helps manage operational costs by providing insights into fuel consumption, pricing strategies, and consumer spending patterns, ultimately allowing businesses to optimize their pricing without compromising accessibility."
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "id": "1775352949-01",
+  "slug": "spacecomm",
+  "prompt": "Create a mobile application named 'SpaceComm' that allows astronauts to communicate effectively during space missions. The app must have a secure messaging system with end-to-end encryption to protect sensitive communications. It should support offline message queuing, allowing astronauts to write and send messages which will be sent automatically when a connection is available. Implement real-time notifications for incoming messages and integrate with existing mission control systems to provide astronauts with important status updates. The UI should be intuitive, designed for low-bandwidth environments, and accessible to users with varying levels of technical expertise.",
+  "build_spec": {
+    "app_name": "SpaceComm",
+    "language": "jac",
+    "entry_point": "main.jac",
+    "features": [
+      "Secure messaging system with end-to-end encryption",
+      "Offline message queuing for sending updates when signal is available",
+      "Real-time notifications for incoming messages",
+      "Integration with mission control systems for status updates",
+      "User-friendly interface designed for low-bandwidth environments"
+    ],
+    "tech_stack": "Node.js backend, React Native for cross-platform mobile app, WebSocket for real-time communication",
+    "ui": "web dashboard"
+  },
+  "_agent5": {
+    "category_name": "Space Exploration",
+    "problem": "Astronauts face critical communication issues during missions, as evidenced by their inability to access email systems while in space, potentially jeopardizing mission coordination.",
+    "score": 8,
+    "description": "SpaceComm is a dedicated communication app designed for astronauts on space missions, enabling them to securely access and send messages, updates, and critical information while in orbit. It helps maintain mission coordination and ensures that astronauts can stay connected with mission control and each other, enhancing safety and operational efficiency during missions."
+  }
+}

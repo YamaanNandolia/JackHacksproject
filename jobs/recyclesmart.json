@@ -1,0 +1,25 @@
+{
+  "id": "1775360144-01",
+  "slug": "recyclesmart",
+  "prompt": "Create an application called RecycleSmart that connects users to local recycling centers and educates them on recycling practices. The app should feature a local recycling center finder that uses Google Maps API to show nearby options. Include educational resources detailing which materials are recyclable and how to prepare them. Implement a personal recycling tracker that allows users to log their recycling habits and participate in community challenges, encouraging sustainable behaviors. Add a rewards program to incentivize users for recycling efforts. The UI should be engaging and user-friendly, promoting community involvement and education.",
+  "build_spec": {
+    "app_name": "RecycleSmart",
+    "language": "jac",
+    "entry_point": "main.jac",
+    "features": [
+      "Local Recycling Center Finder",
+      "Material Recycling Education",
+      "Personal Recycling Tracker",
+      "Community Challenges",
+      "Rewards Program for Users"
+    ],
+    "tech_stack": "Ruby on Rails backend, Vue.js frontend, SQLite database, Google Maps API",
+    "ui": "web dashboard"
+  },
+  "_agent5": {
+    "category_name": "Environmental Issues",
+    "problem": "The growing plastic waste crisis necessitates innovative recycling solutions to mitigate pollution and protect ecosystems.",
+    "score": 10,
+    "description": "RecycleSmart is an innovative application aimed at enhancing recycling efforts by connecting users with local recycling centers and providing educational resources on recycling practices. It offers a platform for users to learn about the types of materials that can be recycled, track their recycling habits, and even participate in community recycling challenges to promote sustainable habits. Ideal for environmentally conscious individuals and communities."
+  }
+}

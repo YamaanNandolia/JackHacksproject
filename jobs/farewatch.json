@@ -1,0 +1,24 @@
+{
+  "id": "1775355231-01",
+  "slug": "farewatch",
+  "prompt": "Create FareWatch, a consumer advocacy application focused on airfare pricing transparency. The app should allow users to compare ticket prices across various airlines and provide real-time fare alerts based on user-defined criteria. Implement features that analyze pricing trends and operational costs affecting airfare, offering insights to users. Include a section for user reviews and feedback on airlines to help consumers make informed decisions.",
+  "build_spec": {
+    "app_name": "FareWatch",
+    "language": "jac",
+    "entry_point": "main.jac",
+    "features": [
+      "Fare comparison across multiple airlines",
+      "Real-time fare alerts and notifications",
+      "Insights into pricing trends and operational cost factors",
+      "User reviews and feedback on airlines"
+    ],
+    "tech_stack": "Ruby on Rails backend, Angular frontend, PostgreSQL for data storage",
+    "ui": "web dashboard"
+  },
+  "_agent5": {
+    "category_name": "Business and Economy",
+    "problem": "Rising operational costs, particularly in the airline industry, are leading to increased fees for consumers, impacting travel affordability and accessibility.",
+    "score": 9,
+    "description": "FareWatch is a consumer advocacy application that provides travelers with insights into airfare pricing trends and operational cost factors in the airline industry. It helps users understand fare increases, compare ticket prices across airlines, and receive alerts when fares drop. The app aims to empower consumers with information, promoting transparency and accessibility in air travel."
+  }
+}

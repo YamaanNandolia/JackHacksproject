@@ -1,0 +1,25 @@
+{
+  "id": "1775354436-01",
+  "slug": "commsync",
+  "prompt": "Create an application named CommSync that serves as a communication and task management tool for astronauts during space missions. The app should provide real-time voice and video communication capabilities using WebRTC, enabling astronauts to connect with mission control effortlessly. Include a task management system where astronauts can view, prioritize, and receive notifications about their tasks. The app should feature a monitoring dashboard that displays the status of essential systems with alerts for any critical changes. Implement an emergency protocol section that allows astronauts to access predefined emergency procedures quickly, with options to initiate responses. Ensure the application works offline, storing critical updates locally until a connection is re-established. The user interface should be intuitive and designed for use in low-gravity environments, with large buttons and voice command capabilities.",
+  "build_spec": {
+    "app_name": "CommSync",
+    "language": "jac",
+    "entry_point": "main.jac",
+    "features": [
+      "Real-time voice and video communication with mission control",
+      "Task management system for astronauts with priority notifications",
+      "Monitoring dashboard for essential systems status",
+      "Emergency protocol access with quick response options",
+      "Offline functionality for critical updates during communication outages"
+    ],
+    "tech_stack": "Node.js backend, React Native frontend, WebRTC for communication",
+    "ui": "web dashboard"
+  },
+  "_agent5": {
+    "category_name": "Space Exploration",
+    "problem": "Astronauts face significant challenges with communication and essential systems during space missions, impacting their ability to perform tasks effectively.",
+    "score": 8,
+    "description": "CommSync is a specialized communication and task management application designed for astronauts on space missions. It enhances real-time communication between astronauts and mission control while providing a centralized platform for managing tasks, essential systems monitoring, and emergency protocols. This app is crucial for ensuring astronaut safety and mission efficiency in the challenging environment of space."
+  }
+}

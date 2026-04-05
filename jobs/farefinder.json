@@ -1,0 +1,25 @@
+{
+  "id": "1775356720-01",
+  "slug": "farefinder",
+  "prompt": "Develop an application named 'FareFinder' that helps travelers find the best airline prices. The app should feature a Django backend that processes real-time flight data and a Vue.js frontend for an intuitive user experience. Core functionalities include real-time flight price tracking, fare comparison across multiple airlines, and automated alerts for price drops. Users should have the capability to analyze historical price trends to make better travel decisions. The UI must be user-friendly, allowing users to easily search for flights and navigate through different features.",
+  "build_spec": {
+    "app_name": "FareFinder",
+    "language": "jac",
+    "entry_point": "main.jac",
+    "features": [
+      "Real-time flight price tracking",
+      "Fare comparison across multiple airlines",
+      "Price drop alerts and notifications",
+      "User-friendly interface for easy navigation",
+      "Historical price trend analysis"
+    ],
+    "tech_stack": "Django backend, Vue.js frontend, MongoDB database",
+    "ui": "web dashboard"
+  },
+  "_agent5": {
+    "category_name": "Business and Economy",
+    "problem": "Rising operational costs, such as increased airline fees due to fuel price hikes, are burdening consumers and altering market dynamics.",
+    "score": 9,
+    "description": "FareFinder is a cost transparency application designed for travelers seeking the best airline prices amidst rising operational costs. It provides users with real-time updates on flight prices, fare comparisons, and alerts for price drops, enabling consumers to make informed travel decisions and save money."
+  }
+}

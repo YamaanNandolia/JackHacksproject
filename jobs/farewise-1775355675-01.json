@@ -1,0 +1,25 @@
+{
+  "id": "1775355675-01",
+  "slug": "farewise",
+  "prompt": "Develop a mobile application called FareWise that helps travelers compare flight fares and manage their travel budgets. The app should aggregate real-time fare data from multiple airlines and provide users with a budgeting tool for their travel expenses. Include price alert notifications for chosen routes, user reviews and ratings for airlines, and flexible search options based on user preferences. The user interface should be designed to be simple and engaging for travelers.",
+  "build_spec": {
+    "app_name": "FareWise",
+    "language": "jac",
+    "entry_point": "main.jac",
+    "features": [
+      "Real-time fare comparison across multiple airlines",
+      "Budgeting tool for travel expenses",
+      "Price alert notifications for selected routes",
+      "User reviews and ratings for airlines",
+      "Flexible search options based on travel preferences"
+    ],
+    "tech_stack": "Ruby on Rails backend, Angular frontend, MongoDB database",
+    "ui": "web dashboard"
+  },
+  "_agent5": {
+    "category_name": "Business and Economy",
+    "problem": "Rising operational costs, exemplified by airlines increasing fees to counteract fuel price hikes, threaten affordability and accessibility of travel for consumers.",
+    "score": 9,
+    "description": "FareWise is an intelligent fare comparison and budgeting app designed to help travelers find the best deals on flights and manage their travel expenses. By aggregating data from various airlines and offering budgeting tools, FareWise empowers consumers to make informed decisions about their travel plans, thus maintaining affordability amidst rising operational costs in the airline industry."
+  }
+}

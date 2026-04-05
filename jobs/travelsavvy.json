@@ -1,0 +1,25 @@
+{
+  "id": "1775356996-01",
+  "slug": "travelsavvy",
+  "prompt": "Develop an app named TravelSavvy aimed at consumers looking to manage travel costs. The app should provide a price comparison feature for flights and hotels, alerting users to price changes in real-time. Include a budget tracking tool that helps users stay within their financial limits. The app should analyze travel behavior patterns and offer insights to users. Integrate with existing travel loyalty programs to help users maximize their benefits.",
+  "build_spec": {
+    "app_name": "TravelSavvy",
+    "language": "jac",
+    "entry_point": "main.jac",
+    "features": [
+      "Price comparison for flights and hotels",
+      "Real-time price alerts",
+      "User budget tracking",
+      "Travel behavior analytics",
+      "Integration with travel loyalty programs"
+    ],
+    "tech_stack": "Django backend, Angular frontend, MySQL database",
+    "ui": "web dashboard"
+  },
+  "_agent5": {
+    "category_name": "Business and Economy",
+    "problem": "Rising operational costs, such as increased airline fees due to fuel prices, are straining consumer budgets and altering travel behavior.",
+    "score": 9,
+    "description": "TravelSavvy is an intuitive travel planning app that helps consumers find the best deals on flights and accommodations by analyzing current prices and trends. It empowers users with price transparency, allowing them to make informed decisions about their travel plans while adapting to fluctuating operational costs in the airline industry."
+  }
+}

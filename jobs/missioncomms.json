@@ -1,0 +1,25 @@
+{
+  "id": "1775355412-01",
+  "slug": "missioncomms",
+  "prompt": "Design an application named 'MissionComms' for astronauts to ensure reliable communication and operational efficiency during space missions. The app should include a real-time messaging feature that allows astronauts to communicate with mission control, even when offline. Incorporate a task management system that lets astronauts view, create, and update mission-critical tasks, with notifications for upcoming deadlines. Implement an incident reporting feature that allows astronauts to quickly report issues and send alerts to mission control. The data model should consist of users (astronauts), messages, tasks, and incidents, with appropriate relationships. The user interface should be intuitive and user-friendly, with a dashboard displaying messages, tasks, and alerts prominently, ensuring astronauts can access vital information quickly.",
+  "build_spec": {
+    "app_name": "MissionComms",
+    "language": "jac",
+    "entry_point": "main.jac",
+    "features": [
+      "Real-time messaging with mission control",
+      "Task management for astronauts",
+      "Offline mode for communication and task access",
+      "Incident reporting and alert system",
+      "Data logging for mission activities"
+    ],
+    "tech_stack": "Node.js backend, React Native frontend, WebSocket for real-time communication, MongoDB for data storage",
+    "ui": "web dashboard"
+  },
+  "_agent5": {
+    "category_name": "Space Exploration",
+    "problem": "Astronauts on space missions face critical communication and operational failures due to unreliable software systems, such as email and essential tools, which can jeopardize mission success and astronaut safety.",
+    "score": 8,
+    "description": "MissionComms is a robust communication and operational tool designed specifically for astronauts on space missions. It ensures reliable communication with mission control and provides essential operational functionalities, minimizing the risk of failures during critical missions. The app is tailored for astronauts, providing them with a reliable platform to communicate and manage mission-critical tasks seamlessly."
+  }
+}

@@ -14,7 +14,7 @@ import from agent2_data_gathering {
 
 glob llm = Model(model_name="gpt-4o-mini", api_key=OPENAI_API_KEY);
 
-glob MAX_REVIEW_ITERATIONS: int = 3;
+glob MAX_REVIEW_ITERATIONS: int = 1;
 
 """The result of a grouping review."""
 obj ReviewDecision {

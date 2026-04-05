@@ -41,22 +41,99 @@
 
 on run argv
   -- ── Parse arguments ──────────────────────────────────────────────────────
-  if (count of argv) < 1 then
-    logMsg("ERROR: Missing required argument: <prompt_file_path>")
-    logMsg("Usage: osascript focus_and_paste.applescript <prompt_file_path> [<command_query>] [<delay>]")
-    error "Missing prompt_file_path argument." number 1
-  end if
-
-  set promptFilePath to item 1 of argv
+  set promptFilePath to ""
+  if (count of argv) >= 1 then set promptFilePath to item 1 of argv
 
   set paletteQuery to "JacCoder: New Session"
-  if (count of argv) >= 2 then
-    set paletteQuery to item 2 of argv
-  end if
+  if (count of argv) >= 2 then set paletteQuery to item 2 of argv
 
   set postOpenDelay to 1.5
-  if (count of argv) >= 3 then
+  if (count of argv) >= 3 and item 3 of argv is not "" then
     set postOpenDelay to (item 3 of argv) as real
+  end if
+
+  -- submitOnly = "true"  →  JacCoder is already open; skip Command Palette.
+  --                          Just focus the input box, type the activation
+  --                          message, and press Return to submit.
+  set submitOnly to "false"
+  if (count of argv) >= 4 then set submitOnly to item 4 of argv
+
+  -- ── Submit-only branch ───────────────────────────────────────────────────
+  if submitOnly is "true" then
+    logMsg("──────────────────────────────────────────")
+    logMsg("JacCoder AppleScript — Submit-only mode")
+    logMsg("(JacCoder is already open; PROMPT.md is attached)")
+    logMsg("Flow: set clipboard → Focus VS Code → Tab×2 into input → Cmd+V paste → Return")
+    logMsg("──────────────────────────────────────────")
+
+    set vsApp to ""
+    try
+      set vsApp to findVSCodeProcess()
+    on error procErr
+      logMsg("ERROR: findVSCodeProcess threw: " & procErr)
+    end try
+    if vsApp is "" then
+      logMsg("ERROR: VS Code process not found (tried: Visual Studio Code, Code - Insiders, VSCodium, Code).")
+      error "VS Code is not running." number 3
+    end if
+    logMsg("Found VS Code: " & vsApp)
+
+    -- Set clipboard BEFORE focusing VS Code so the system clipboard is ready
+    set activationMsg to "Build this application as described in the attached prompt."
+    set the clipboard to activationMsg
+    delay 0.3
+    logMsg("Clipboard set to activation message.")
+
+    logMsg("Focusing VS Code…")
+    tell application vsApp to activate
+    delay 1.0
+    logMsg("VS Code focused.")
+
+    -- Press Tab twice: first Tab moves focus from editor into the webview panel,
+    -- second Tab moves focus into the actual text input element inside the webview.
+    logMsg("Pressing Tab ×2 to move focus into the JacCoder input box…")
+    tell application "System Events"
+      tell process vsApp
+        key code 48 -- Tab 1: enter the JacCoder webview
+      end tell
+    end tell
+    delay 0.5
+    tell application "System Events"
+      tell process vsApp
+        key code 48 -- Tab 2: focus the text input inside the webview
+      end tell
+    end tell
+    delay 0.6
+    logMsg("Tabs sent — focus should now be inside the JacCoder input field.")
+
+    -- Use Cmd+V (clipboard paste) instead of keystroke — far more reliable
+    -- inside Electron/Chromium-based webview inputs than direct keystrokes.
+    logMsg("Pasting activation message via Cmd+V…")
+    tell application "System Events"
+      tell process vsApp
+        keystroke "v" using {command down}
+      end tell
+    end tell
+    delay 0.5
+    logMsg("Activation message pasted into JacCoder input.")
+
+    logMsg("Pressing Return to submit the message…")
+    tell application "System Events"
+      tell process vsApp
+        key code 36 -- Return
+      end tell
+    end tell
+    logMsg("──────────────────────────────────────────")
+    logMsg("Done. Activation message submitted to JacCoder.")
+    logMsg("──────────────────────────────────────────")
+    return "OK"
+  end if
+
+  -- ── Standard full-flow mode ──────────────────────────────────────────────
+  if promptFilePath is "" then
+    logMsg("ERROR: Missing required argument: <prompt_file_path>")
+    logMsg("Usage: osascript focus_and_paste.applescript <prompt_file_path> [<command_query>] [<delay>] [<submit_only>]")
+    error "Missing prompt_file_path argument." number 1
   end if
 
   logMsg("──────────────────────────────────────────")
@@ -117,7 +194,7 @@ on run argv
   logMsg("Command Palette opened.")
 
   -- ── Step 5: Type command query ────────────────────────────────────────────
-  logMsg("Step 5: Typing palette query: "" & paletteQuery & """)
+  logMsg("Step 5: Typing palette query: \"" & paletteQuery & "\"")
   try
     tell application "System Events"
       tell process vsApp
@@ -149,40 +226,73 @@ on run argv
   logMsg("Command executed. Waiting " & postOpenDelay & "s for JacCoder panel to open…")
   delay postOpenDelay
 
-  -- ── Step 7: Paste prompt via clipboard ────────────────────────────────────
-  logMsg("Step 7: Setting clipboard to prompt content…")
+  -- ── Step 7: Focus the JacCoder message input box ─────────────────────────
+  -- After the Command Palette command runs, VS Code focus stays on the editor
+  -- area or the panel container header — NOT inside the webview text input.
+  -- Pressing Tab moves focus from the editor into the first focusable element
+  -- of the active webview panel, which is the chat input field.
+  logMsg("Step 7: Pressing Tab to move focus into the JacCoder input box…")
+  try
+    tell application "System Events"
+      tell process vsApp
+        key code 48 -- Tab → enter the JacCoder webview input field
+      end tell
+    end tell
+    delay 0.5
+    logMsg("Step 7: Tab sent — focus should now be inside the JacCoder input field.")
+  on error tabErr
+    logMsg("WARN: Tab focus failed: " & tabErr & " — attempting paste anyway.")
+  end try
+
+  -- ── Step 8: Clear any placeholder text already in the input ──────────────
+  logMsg("Step 8: Pressing Cmd+A to select any existing placeholder text…")
+  try
+    tell application "System Events"
+      tell process vsApp
+        keystroke "a" using {command down}
+      end tell
+    end tell
+    delay 0.2
+    logMsg("Step 8: Cmd+A sent — existing input text selected (if any).")
+  on error selErr
+    logMsg("WARN: Cmd+A failed: " & selErr)
+  end try
+
+  -- ── Step 9: Set clipboard and paste prompt into the input field ───────────
+  logMsg("Step 9: Setting clipboard to prompt content…")
   set the clipboard to promptText
   delay 0.2
 
-  logMsg("Step 7: Pasting prompt (⌘V)…")
+  logMsg("Step 9: Pasting prompt into JacCoder input box (Cmd+V)…")
   try
     tell application "System Events"
       tell process vsApp
         keystroke "v" using {command down}
       end tell
     end tell
-    delay 0.3
+    delay 0.5
+    logMsg("Step 9: Prompt pasted into JacCoder input box.")
   on error pasteErr
     logMsg("ERROR: Could not paste prompt: " & pasteErr)
     error "Could not paste prompt." number 4
   end try
-  logMsg("Prompt pasted.")
 
-  -- ── Step 8: Press Return to submit ───────────────────────────────────────
-  logMsg("Step 8: Pressing Return to submit prompt…")
+  -- ── Step 10: Submit the prompt by pressing Return ─────────────────────────
+  logMsg("Step 10: Pressing Return to submit the prompt…")
   try
     tell application "System Events"
       tell process vsApp
-        key code 36 -- Return
+        key code 36 -- Return → submit the message
       end tell
     end tell
+    logMsg("Step 10: Return pressed — prompt submitted to JacCoder.")
   on error submitErr
     logMsg("ERROR: Could not press Return to submit: " & submitErr)
     error "Could not submit prompt." number 4
   end try
 
   logMsg("──────────────────────────────────────────")
-  logMsg("Done. Prompt submitted to JacCoder.")
+  logMsg("Done. PROMPT.md contents pasted and submitted to JacCoder input box.")
   logMsg("──────────────────────────────────────────")
   return "OK"
 end run
@@ -213,6 +323,8 @@ end findVSCodeProcess
   can capture it separately from stdout.
 *)
 on logMsg(msg)
-  set ts to do shell script "date '+%H:%M:%S'"
+  -- Use pure AppleScript time — do shell script is blocked when osascript is
+  -- invoked from VS Code's extension host process and causes silent crashes.
+  set ts to time string of (current date)
   log "[" & ts & "] " & msg
 end logMsg

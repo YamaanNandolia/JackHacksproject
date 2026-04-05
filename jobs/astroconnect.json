@@ -1,0 +1,25 @@
+{
+  "id": "1775352661-01",
+  "slug": "astroconnect",
+  "prompt": "Build an application named AstroConnect that serves as a communication platform for astronauts during their missions. The app should allow users to send and receive secure emails, engage in real-time messaging, and share files. The interface must be user-friendly and designed for the unique conditions of space. Include features for mission status updates that can be pushed to users. The backend should be developed using Node.js, and the mobile app should utilize React Native. Implement WebSocket for real-time messaging capabilities.",
+  "build_spec": {
+    "app_name": "AstroConnect",
+    "language": "jac",
+    "entry_point": "main.jac",
+    "features": [
+      "Secure Email Access",
+      "Real-time Messaging",
+      "File Sharing Capabilities",
+      "Mission Status Updates",
+      "User-friendly Interface"
+    ],
+    "tech_stack": "Node.js backend, React Native mobile app, WebSocket for real-time communication",
+    "ui": "web dashboard"
+  },
+  "_agent5": {
+    "category_name": "Space Exploration",
+    "problem": "Astronauts are facing critical communication issues during missions, as they are unable to access essential tools like email, which can impact mission success and safety.",
+    "score": 8,
+    "description": "AstroConnect is a communication platform designed specifically for astronauts on space missions. It provides a reliable and secure way to access essential tools like email, messaging, and file sharing, ensuring that astronauts can communicate effectively with mission control and each other, thus enhancing mission success and safety."
+  }
+}

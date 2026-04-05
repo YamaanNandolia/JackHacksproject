@@ -1,0 +1,25 @@
+{
+  "id": "1775362048-01",
+  "slug": "mindease",
+  "prompt": "Create an application called MindEase, which serves as a mental health resource platform for individuals. The app should include self-assessment tools that help users evaluate their mental health status. Provide a variety of mindfulness and meditation exercises to promote well-being. Include a directory of local therapists, allowing users to find professional support easily. Integrate an emergency helpline access feature for immediate assistance. Ensure the user interface is intuitive and easy to navigate. The backend should be developed using Python, and the mobile app should be built with Flutter, utilizing Firebase for data storage.",
+  "build_spec": {
+    "app_name": "MindEase",
+    "language": "jac",
+    "entry_point": "main.jac",
+    "features": [
+      "Self-Assessment Tools",
+      "Mindfulness and Meditation Exercises",
+      "Local Therapist Directory",
+      "Emergency Helpline Access",
+      "User-Friendly Interface"
+    ],
+    "tech_stack": "Python backend, Flutter mobile app, Firebase",
+    "ui": "web dashboard"
+  },
+  "_agent5": {
+    "category_name": "Health and Wellness",
+    "problem": "There is a significant gap in access to mental health resources and support, especially highlighted during Mental Health Awareness Month.",
+    "score": 9,
+    "description": "MindEase is a mental health app designed to provide accessible resources, guidance, and support for individuals seeking help with their mental well-being. It offers self-assessment tools, mindfulness exercises, and a directory of local therapists, ensuring users have the support they need during tough times."
+  }
+}

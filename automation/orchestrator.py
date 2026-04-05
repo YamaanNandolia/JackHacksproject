@@ -24,9 +24,11 @@ Flags:
 import argparse
 import json
 import logging
+import os
 import re
 import subprocess
 import sys
+import threading
 import time
 from pathlib import Path
 
@@ -38,6 +40,7 @@ PROJECT_ROOT = SCRIPT_DIR.parent                        # Final1/
 JOBS_DIR     = PROJECT_ROOT / "jobs"
 LAUNCHER     = SCRIPT_DIR / "launcher" / "launch_generated_app.py"
 AGENT5_JAC   = PROJECT_ROOT / "agent5_software_prompt.jac"
+RUNS_DIR     = PROJECT_ROOT / "logs" / "pipeline_runs"
 
 # Marker line printed by agent5_software_prompt.jac
 AGENT5_MARKER = "=== Agent 5 Output: Software Prompts (Ready for Jac Coder) ==="
@@ -63,32 +66,86 @@ def slugify(text: str) -> str:
     return re.sub(r"^-+|-+$", "", text) or "app"
 
 
-def run_agents() -> str:
+def stream_reader(stream, log_file, mirror_to, captured: list[str] | None = None) -> None:
+    """
+    Stream subprocess output line-by-line.
+    Optionally mirror it to a terminal stream and/or capture it in memory.
+    """
+    try:
+        for line in iter(stream.readline, ""):
+            if mirror_to is not None:
+                print(line, end="", file=mirror_to, flush=True)
+            log_file.write(line)
+            log_file.flush()
+            if captured is not None:
+                captured.append(line)
+    finally:
+        stream.close()
+
+
+def run_agents(run_dir: Path) -> Path:
     """
     Execute `jac run agent5_software_prompt.jac` from the project root.
-    Streams stderr live (so the user can see agent progress) and returns
-    the full stdout as a string.
+    Streams stdout/stderr live, tees them to run logs, and returns the
+    expected Agent 5 machine-output JSON path.
     """
+    stdout_log = run_dir / "agent_pipeline.stdout.log"
+    stderr_log = run_dir / "agent_pipeline.stderr.log"
+    prompts_json = run_dir / "agent5_prompts.json"
+
     log.info("Running agent pipeline (Agents 1 → 5)…")
     log.info("This may take 60-120 seconds. Agent progress streams below:")
+    log.info("Stdout log: %s", stdout_log)
+    log.info("Stderr log: %s", stderr_log)
+    log.info("Agent 5 JSON output: %s", prompts_json)
     log.info("─" * 60)
 
-    result = subprocess.run(
+    env = os.environ.copy()
+    env["AGENT5_OUTPUT_JSON"] = str(prompts_json)
+
+    proc = subprocess.Popen(
         ["jac", "run", str(AGENT5_JAC)],
         cwd=PROJECT_ROOT,
-        capture_output=True,    # let stdout/stderr flow to terminal live
+        env=env,
         text=True,
-        stdout=subprocess.PIPE,  # capture stdout for parsing
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        bufsize=1,
     )
+
+    stdout_captured: list[str] = []
+    with stdout_log.open("w") as stdout_f, stderr_log.open("w") as stderr_f:
+        stdout_thread = threading.Thread(
+            target=stream_reader,
+            args=(proc.stdout, stdout_f, sys.stdout, stdout_captured),
+            daemon=True,
+        )
+        stderr_thread = threading.Thread(
+            target=stream_reader,
+            args=(proc.stderr, stderr_f, sys.stderr, None),
+            daemon=True,
+        )
+        stdout_thread.start()
+        stderr_thread.start()
+        returncode = proc.wait()
+        stdout_thread.join()
+        stderr_thread.join()
 
     log.info("─" * 60)
 
-    if result.returncode != 0:
-        log.error("Agent pipeline exited with code %d", result.returncode)
-        log.error("Check the output above for errors.")
+    if returncode != 0:
+        log.error("Agent pipeline exited with code %d", returncode)
+        log.error("Check terminal output and logs in %s", run_dir)
         sys.exit(1)
 
-    return result.stdout
+    # Fallback compatibility for older Agent 5 behavior that only prints JSON.
+    if not prompts_json.exists():
+        raw_stdout = "".join(stdout_captured)
+        prompts = extract_prompts(raw_stdout)
+        prompts_json.write_text(json.dumps(prompts, indent=2) + "\n")
+        log.info("Agent 5 JSON file was not written by Jac; saved parsed output to %s", prompts_json)
+
+    return prompts_json
 
 
 def extract_prompts(raw_output: str) -> list[dict]:
@@ -114,6 +171,23 @@ def extract_prompts(raw_output: str) -> list[dict]:
         raise ValueError("Agent 5 returned an empty or non-list result.")
 
     log.info("Agent 5 produced %d software prompt(s).", len(data))
+    return data
+
+
+def load_prompts_from_file(prompts_path: Path) -> list[dict]:
+    """Load Agent 5 structured prompts from its dedicated JSON output file."""
+    if not prompts_path.exists():
+        raise ValueError(f"Agent 5 JSON output file not found: {prompts_path}")
+
+    try:
+        data = json.loads(prompts_path.read_text())
+    except json.JSONDecodeError as exc:
+        raise ValueError(f"Could not parse Agent 5 JSON file '{prompts_path}': {exc}") from exc
+
+    if not isinstance(data, list) or len(data) == 0:
+        raise ValueError("Agent 5 JSON file contained an empty or non-list result.")
+
+    log.info("Loaded %d software prompt(s) from %s", len(data), prompts_path)
     return data
 
 
@@ -225,11 +299,14 @@ def main() -> None:
         sys.exit(1)
 
     # ── Step 1: Run agents ───────────────────────────────────────────────────
-    raw_output = run_agents()
+    run_id = time.strftime("%Y%m%d-%H%M%S")
+    run_dir = RUNS_DIR / run_id
+    run_dir.mkdir(parents=True, exist_ok=True)
+    prompts_path = run_agents(run_dir)
 
     # ── Step 2: Extract prompts ──────────────────────────────────────────────
     try:
-        prompts = extract_prompts(raw_output)
+        prompts = load_prompts_from_file(prompts_path)
     except ValueError as exc:
         log.error(str(exc))
         sys.exit(1)

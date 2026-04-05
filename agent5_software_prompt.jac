@@ -3,6 +3,7 @@
 import from byllm.lib { Model }
 import from typing { Any }
 import json;
+import os;
 import from env_loader { OPENAI_API_KEY }
 import from agent4_problem_creator { run_problem_creation, ProblemStatement }
 
@@ -38,6 +39,19 @@ For EACH problem, design a small, focused software application that directly add
 
 Return one SoftwarePrompt per problem.
 """;
+
+"""Persist the final structured prompts for machine consumption when requested."""
+def maybe_write_output_file(output: list[dict[str, Any]]) -> None {
+    output_path: str = os.getenv("AGENT5_OUTPUT_JSON", "");
+    if output_path == "" {
+        return;
+    }
+
+    f: Any = open(output_path, "w");
+    f.write(json.dumps(output, indent=2) + "\n");
+    f.close();
+    print(f"SoftwarePromptAgent: Wrote structured output to {output_path}");
+}
 
 """Serialize problem statements list to JSON string for LLM input."""
 def serialize_problems(problems: list[ProblemStatement]) -> str {
@@ -97,6 +111,7 @@ with entry {
             }
         );
     }
+    maybe_write_output_file(output);
     print("\n=== Agent 5 Output: Software Prompts (Ready for Jac Coder) ===");
     print(json.dumps(output, indent=2));
 }
