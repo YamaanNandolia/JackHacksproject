@@ -4,11 +4,11 @@ import { useApp } from "../context/AppContext";
 import { fetchTrendClusters } from "@/services/api";
 
 const AGENT_STEPS = [
-  "Agent 1: Scanning latest news sources…",
-  "Agent 2: Grouping articles into categories…",
-  "Agent 3: Reviewing and refining categories…",
-  "Agent 4: Identifying market problems…",
-  "Agent 5: Generating software ideas…",
+  "Scanning latest news sources…",
+  "Grouping articles into categories…",
+  "Reviewing and refining categories…",
+  "Identifying market problems…",
+  "Generating software ideas…",
   "Finalizing trend clusters…",
 ];
 
