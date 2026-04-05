@@ -38,9 +38,9 @@ glob OPENAI_API_KEY: str = os.getenv("OPENAI_API_KEY", "");
 glob NEWS_API_KEY: str = os.getenv("NEWS_API_KEY", "");
 glob ANTHROPIC_API_KEY: str = os.getenv("ANTHROPIC_API_KEY", "");
 
-with entry {
-    print("DOTENV_LOADED: " + str(DOTENV_LOADED));
-    print("OPENAI_API_KEY loaded: " + str(OPENAI_API_KEY != ""));
-    print("NEWS_API_KEY loaded: " + str(NEWS_API_KEY != ""));
-    print("ANTHROPIC_API_KEY loaded: " + str(ANTHROPIC_API_KEY != ""));
-}
+# with entry {
+#     print("DOTENV_LOADED: " + str(DOTENV_LOADED));
+#     print("OPENAI_API_KEY loaded: " + str(OPENAI_API_KEY != ""));
+#     print("NEWS_API_KEY loaded: " + str(NEWS_API_KEY != ""));
+#     print("ANTHROPIC_API_KEY loaded: " + str(ANTHROPIC_API_KEY != ""));
+# }

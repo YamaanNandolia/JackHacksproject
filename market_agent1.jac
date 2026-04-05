@@ -20,10 +20,10 @@ import from env_loader { ANTHROPIC_API_KEY }
 
 glob llm = Model(model_name="anthropic/claude-sonnet-4-20250514", api_key=str(ANTHROPIC_API_KEY));
 
-with entry {
-    print("ANTHROPIC key loaded: " + str(ANTHROPIC_API_KEY != ""));
-    print("Model: anthropic/claude-sonnet-4-20250514");
-}
+# with entry {
+#     print("ANTHROPIC key loaded: " + str(ANTHROPIC_API_KEY != ""));
+#     print("Model: anthropic/claude-sonnet-4-20250514");
+# }
 
 # ── Input: marketing-relevant slice of Part 1 ─────────────────────────────────
 
